@@ -1,0 +1,24 @@
+# --- WordPress core (DO NOT COMMIT) ---
+/wp-admin
+/wp-includes
+/wp-config.php
+/index.php
+/xmlrpc.php
+/readme.html
+/license.txt
+
+# --- Environment files ---
+.env
+
+# --- Uploads & DB ---
+/wp-content/uploads
+/wp-content/database
+
+# --- Node / build ---
+node_modules
+/build
+
+# --- OS / Editor ---
+.DS_Store
+.vscode
+.idea
