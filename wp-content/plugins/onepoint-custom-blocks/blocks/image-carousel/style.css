@@ -1,0 +1,118 @@
+/* ===== Image Carousel – frontend & editor (logo strip style) ===== */
+
+/* Wrapper: hide overflow, vertical padding, brand bg */
+.onepoint-carousel-wrap {
+	overflow: hidden;
+	width: 100%;
+	margin: 0;
+	padding: 1rem 0;
+	background-color: #00D3BA;
+}
+
+.onepoint-carousel-empty {
+	padding: 1.5rem;
+	text-align: center;
+	color: #666;
+	margin: 0;
+}
+
+/* Track: horizontal flex, fixed gap, repeated sets for seamless loop */
+.onepoint-carousel-track {
+	display: flex;
+	flex-wrap: nowrap;
+	width: max-content;
+	will-change: transform;
+	gap: 24px;
+	align-items: center;
+}
+
+/* Each slide: no shrink, gap comes from track */
+.onepoint-carousel-slide {
+	flex-shrink: 0;
+	display: block;
+	line-height: 0;
+}
+
+/* Small logo-style images, contain to preserve aspect (no crop) */
+.onepoint-carousel-slide img {
+	display: block;
+	width: auto;
+	height: 56px;
+	max-width: 160px;
+	object-fit: contain;
+	object-position: center;
+}
+
+/* Align wide/full: keep small size, just more track visible */
+.wp-block-onepoint-image-carousel.alignwide .onepoint-carousel-slide img,
+.wp-block-onepoint-image-carousel.alignfull .onepoint-carousel-slide img {
+	height: 56px;
+	max-width: 160px;
+}
+
+/* ===== Editor only ===== */
+.onepoint-carousel-editor-wrap {
+	border: 1px dashed #ccc;
+	border-radius: 4px;
+	padding: 12px;
+}
+
+.onepoint-carousel-editor-preview {
+	overflow: hidden;
+	margin-bottom: 12px;
+	border-radius: 4px;
+	padding: 0.75rem 0;
+	border: 1px solid #e0e0e0;
+	background-color: #00D3BA;
+}
+
+.onepoint-carousel-editor-track {
+	animation: none;
+}
+
+.onepoint-carousel-editor-empty {
+	text-align: center;
+	padding: 2rem;
+	background: #1a1a1a;
+	border-radius: 4px;
+	color: rgba(255, 255, 255, 0.7);
+}
+
+.onepoint-carousel-editor-hint {
+	font-size: 0.9em;
+	opacity: 0.9;
+}
+
+.onepoint-carousel-editor-slide img {
+	height: 48px;
+	max-width: 140px;
+	object-fit: contain;
+}
+
+.onepoint-carousel-editor-list {
+	margin-top: 12px;
+	padding-top: 12px;
+	border-top: 1px solid #ddd;
+}
+
+.onepoint-carousel-editor-thumbs {
+	list-style: none;
+	margin: 8px 0 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.onepoint-carousel-editor-thumbs li {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 4px;
+	background: #f5f5f5;
+	border-radius: 4px;
+}
+
+.onepoint-carousel-editor-thumbs img {
+	border-radius: 2px;
+}

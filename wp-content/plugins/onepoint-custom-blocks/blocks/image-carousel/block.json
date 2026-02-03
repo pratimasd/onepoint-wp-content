@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "onepoint/image-carousel",
+  "version": "0.1.0",
+  "title": "Image Carousel",
+  "category": "media",
+  "icon": "images-alt2",
+  "description": "Infinite scrolling image carousel. Choose direction (left/right), speed, and add any number of images.",
+  "keywords": ["carousel", "slider", "images", "gallery"],
+  "textdomain": "onepoint-custom-blocks",
+  "attributes": {
+    "images": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number" },
+          "url": { "type": "string" },
+          "alt": { "type": "string", "default": "" },
+          "caption": { "type": "string", "default": "" }
+        }
+      }
+    },
+    "direction": {
+      "type": "string",
+      "default": "left",
+      "enum": ["left", "right"]
+    },
+    "speed": {
+      "type": "number",
+      "default": 30
+    }
+  },
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"],
+    "spacing": { "margin": true, "padding": true }
+  },
+  "editorScript": "file:./edit.js",
+  "editorStyle": "file:./style.css",
+  "style": "file:./style.css",
+  "viewScript": "file:./view.js"
+}

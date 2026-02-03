@@ -1,24 +1,32 @@
-# --- WordPress core (DO NOT COMMIT) ---
-/wp-admin
-/wp-includes
-/wp-config.php
-/index.php
-/xmlrpc.php
-/readme.html
-/license.txt
+# WordPress core (DO NOT TRACK)
+wp-admin/
+wp-includes/
+*.php
+!wp-content/
 
-# --- Environment files ---
-.env
+# WordPress generated
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/backup/
 
-# --- Uploads & DB ---
-/wp-content/uploads
-/wp-content/database
+# Logs
+*.log
+debug.log
 
-# --- Node / build ---
-node_modules
-/build
-
-# --- OS / Editor ---
+# OS / Editor
 .DS_Store
-.vscode
-.idea
+Thumbs.db
+.idea/
+.vscode/
+
+# Node / build
+node_modules/
+vendor/
+dist/
+build/
+
+# Env / secrets
+.env
+.env.local
+*.pem
