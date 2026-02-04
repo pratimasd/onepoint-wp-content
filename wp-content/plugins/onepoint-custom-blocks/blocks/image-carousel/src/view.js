@@ -1,3 +1,6 @@
+/**
+ * Image Carousel block – frontend script (infinite scroll).
+ */
 (function () {
 	'use strict';
 
@@ -16,7 +19,6 @@
 
 			if (!wrap.id) wrap.id = 'onepoint-carousel-' + Math.random().toString(36).slice(2);
 
-			// Track has 6 copies of the image set; move by one set (1/6) for seamless loop
 			var setFraction = (100 / 6).toFixed(4);
 			var translateStart = isLeft ? '0%' : '-' + setFraction + '%';
 			var translateEnd = isLeft ? '-' + setFraction + '%' : '0%';
@@ -44,6 +46,5 @@
 	} else {
 		run();
 	}
-	// Run again on load in case layout/scripts affected carousel (e.g. fonts loaded)
 	window.addEventListener('load', run);
 })();

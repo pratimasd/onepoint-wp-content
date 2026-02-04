@@ -1,0 +1,55 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "onepoint/initiative-card",
+  "version": "0.1.0",
+  "title": "Initiative Card",
+  "category": "design",
+  "icon": "grid-view",
+  "description": "Onepoint initiative card: featured (with heading + description) or simple (icon + two lines). Use multiple in a row.",
+  "keywords": ["card", "initiative", "onepoint"],
+  "textdomain": "onepoint-custom-blocks",
+  "attributes": {
+    "cardType": {
+      "type": "string",
+      "default": "simple",
+      "enum": ["featured", "simple"]
+    },
+    "accentColor": {
+      "type": "string",
+      "default": "#00D3BA"
+    },
+    "iconUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "iconAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "brand": {
+      "type": "string",
+      "default": "Onepoint"
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "heading": {
+      "type": "string",
+      "default": ""
+    },
+    "description": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"],
+    "spacing": { "margin": true, "padding": true }
+  },
+  "editorScript": "file:./build/index.js",
+  "editorStyle": "file:./build/style-index.css",
+  "style": "file:./build/style-index.css"
+}

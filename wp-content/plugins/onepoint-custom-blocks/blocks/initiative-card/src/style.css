@@ -1,0 +1,68 @@
+/* Initiative Card – frontend & editor */
+
+.onepoint-initiative-card {
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	border-top: 4px solid var(--onepoint-card-accent, #00D3BA);
+	padding: 1.5rem;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	text-align: left;
+}
+
+.onepoint-initiative-card__icon {
+	margin-bottom: 1rem;
+	line-height: 0;
+}
+
+.onepoint-initiative-card__icon img {
+	display: block;
+	width: 56px;
+	height: 56px;
+	object-fit: contain;
+}
+
+.onepoint-initiative-card__brand {
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+	color: #00D3BA;
+	margin-bottom: 0.25rem;
+}
+
+.onepoint-initiative-card__title {
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: #1a1a1a;
+	margin: 0 0 0.75rem 0;
+	line-height: 1.2;
+}
+
+.onepoint-initiative-card[data-type="simple"] .onepoint-initiative-card__title {
+	margin-bottom: 0;
+}
+
+.onepoint-initiative-card__heading {
+	font-size: 1.125rem;
+	font-weight: 700;
+	color: #444;
+	margin: 0 0 0.5rem 0;
+	line-height: 1.3;
+}
+
+.onepoint-initiative-card__description {
+	font-size: 0.9375rem;
+	color: #555;
+	line-height: 1.5;
+	margin: 0;
+}
+
+/* Row layout: parent wrapper for multiple cards (use Columns block or custom wrapper) */
+.wp-block-onepoint-initiative-card {
+	flex: 1;
+	min-width: 0;
+}

@@ -1,0 +1,12 @@
+{
+  "name": "onepoint-custom-blocks",
+  "version": "0.1.0",
+  "description": "Onepoint Gutenberg blocks – one Node setup, @wordpress/scripts only",
+  "scripts": {
+    "build": "node scripts/build-blocks.js",
+    "start": "node scripts/build-blocks.js"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "31.4.0"
+  }
+}
