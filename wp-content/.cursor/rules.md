@@ -17,11 +17,11 @@
 ## Gutenberg Block Architecture
 - All Gutenberg blocks MUST be registered using `block.json`
 - Block scripts and styles MUST be declared ONLY in `block.json`
-- Use file-based asset references only:
-  - "file:./index.js"
-  - "file:./edit.js"
-  - "file:./view.js" (only if required)
-  - "file:./style.css"
+- Use file-based asset references only from the build folder:
+  - "file:./build/index.js"
+  - "file:./build/view.js" (only if required)
+  - "file:./build/style.css"
+
 - Each block MUST be fully self-contained in its own folder
 - Do NOT hardcode block names anywhere in PHP
 
@@ -29,16 +29,18 @@
 - Plugin PHP must NEVER enqueue or register block scripts or styles
 - Plugin PHP responsibilities are limited to:
   - Auto-registering blocks via `register_block_type()`
-  - Providing `render_callback` ONLY for dynamic blocks
+  - Providing a `render_callback` for each block (all blocks are dynamic)
 - Always protect files with:
   defined('ABSPATH') || exit;
 
 ## Block Folder Rules
-- Every block MUST include:
+- Every block folder must contain:
   - block.json
-  - index.js
-  - edit.js
-  - style.css
+  - src/index.js
+  - src/edit.js
+  - src/style.css
+
+- All blocks are dynamic: use `save: () => null` in `src/index.js`; do NOT add `save.js` or static save markup
 - Include `view.js` ONLY if frontend JavaScript is required
 - Do NOT create empty folders
 - Do NOT manually edit the `build/` folder
@@ -53,6 +55,9 @@
   - Custom webpack configs
   - New bundlers
   - External JS libraries unless explicitly approved
+  - `build/` output MUST be referenced in block.json
+- `src/` files MUST NEVER be referenced directly in block.json
+
 
 ## PHP Coding Standards
 - Follow WordPress coding standards
@@ -329,3 +334,32 @@
 - If unsure whether logic belongs in theme or plugin:
   - Default to PLUGIN
   - Ask before adding logic to theme
+
+---
+
+# Block Asset Files (Gold Standard)
+
+## Rules — follow strictly
+- **view.asset.php must NEVER be created manually**
+- **Asset PHP files (*.asset.php) must exist only inside the build/ directory**
+- They must be **generated automatically by @wordpress/scripts** during `npm run build`
+- **Do NOT create index.asset.php or view.asset.php in the block root**
+- **Source folders (src/) must never contain asset files**
+- Delete any manually created asset files outside build/ and confirm compliance
+
+## Final correct structure (gold standard)
+```
+image-carousel/
+├── block.json
+├── src/
+│   ├── index.js
+│   ├── edit.js
+│   ├── view.js        ← source only
+│   └── style.css
+└── build/
+    ├── index.js
+    ├── index.asset.php
+    ├── view.js
+    ├── view.asset.php
+    └── style.css
+```
