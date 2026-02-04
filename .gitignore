@@ -1,8 +1,11 @@
+# Track only wp-content and this file; ignore everything else at repo root
+/*
+!.gitignore
+!wp-content/
+
 # WordPress core (DO NOT TRACK)
 wp-admin/
 wp-includes/
-*.php
-!wp-content/
 
 # WordPress generated
 wp-content/uploads/
@@ -20,13 +23,14 @@ Thumbs.db
 .idea/
 .vscode/
 
-# Node / build
+# Node (dependencies only)
 node_modules/
 vendor/
-dist/
-build/
 
 # Env / secrets
 .env
 .env.local
 *.pem
+
+# Plugin build temp (internal tooling only)
+wp-content/plugins/onepoint-custom-blocks/.temp-*/
