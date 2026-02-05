@@ -21,8 +21,47 @@ function onepoint_theme_setup() {
 add_action('after_setup_theme', 'onepoint_theme_setup');
 
 /**
- * Fallback when no primary menu is assigned.
+ * Enqueue theme stylesheet so header and layout are styled (not just default browser look).
+ */
+function onepoint_enqueue_assets() {
+	wp_enqueue_style(
+		'onepoint-block-theme-style',
+		get_stylesheet_uri(),
+		array(),
+		wp_get_theme()->get('Version')
+	);
+}
+add_action('wp_enqueue_scripts', 'onepoint_enqueue_assets');
+
+/**
+ * Fallback when no primary menu is assigned. Matches design: Architect for outcomes, Do data better, Innovate AI & more.
  */
 function onepoint_header_fallback_menu() {
-	echo '<ul id="primary-menu" class="nav-menu"><li class="menu-item"><a href="' . esc_url(admin_url('nav-menus.php')) . '">' . esc_html__('Assign a menu', 'onepoint-block-theme') . '</a></li></ul>';
+	$items = array(
+		array('label' => __('Architect for outcomes', 'onepoint-block-theme'), 'url' => home_url('/')),
+		array('label' => __('Do data better', 'onepoint-block-theme'), 'url' => home_url('/')),
+		array('label' => __('Innovate AI & more', 'onepoint-block-theme'), 'url' => home_url('/')),
+	);
+	echo '<ul id="primary-menu" class="nav-menu">';
+	foreach ($items as $item) {
+		echo '<li class="menu-item"><a href="' . esc_url($item['url']) . '">' . esc_html($item['label']) . '</a></li>';
+	}
+	echo '</ul>';
+}
+
+/**
+ * URL for custom header icon (theme assets folder). Returns empty if no icon file present.
+ * Used by header.php to decide whether to show custom icon or fallback flask SVG.
+ * Checked: g629.png, header-icon.png, header-icon.svg
+ */
+function onepoint_header_icon_url() {
+	$dir = get_template_directory();
+	$uri = get_template_directory_uri();
+	$candidates = array('g629.png', 'header-icon.png', 'header-icon.svg');
+	foreach ($candidates as $file) {
+		if (file_exists($dir . '/assets/' . $file)) {
+			return $uri . '/assets/' . $file;
+		}
+	}
+	return '';
 }
