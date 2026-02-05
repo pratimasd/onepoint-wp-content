@@ -363,3 +363,64 @@ image-carousel/
     ├── view.asset.php
     └── style.css
 ```
+
+
+
+
+# Responsive Design Rules – OnePoint Custom Blocks
+
+## Core Principles
+- All custom blocks MUST be responsive by default
+- Blocks must render correctly on:
+  - Desktop
+  - Tablet
+  - Mobile
+- No block should require theme-specific overrides to be responsive
+
+## CSS Rules
+- Use mobile-first CSS
+- Avoid fixed widths and heights
+- Prefer:
+  - flexbox
+  - CSS grid
+  - relative units (%, em, rem, vw)
+- Avoid:
+  - absolute positioning unless necessary
+  - hardcoded pixel-based layouts for structure
+- Media queries are allowed inside block styles when required
+
+## Block Styling Scope
+- Responsiveness MUST be handled inside the block’s own `style.css`
+- Theme CSS must NOT be required to fix block layouts
+- Global theme styles may enhance spacing/typography only
+
+## Editor vs Frontend Consistency
+- Block appearance in the editor MUST closely match frontend output
+- Editor-only styles must not hide responsiveness issues
+- Test blocks in:
+  - Editor canvas
+  - Frontend
+  - Mobile viewport
+
+## Inspector Controls for Responsiveness (Optional)
+- If a block has layout variations:
+  - Expose responsive options via InspectorControls
+    - Columns count
+    - Alignment
+    - Spacing
+- Defaults must work well without configuration
+
+## Images & Media
+- Always use responsive image techniques:
+  - WordPress media components
+  - `object-fit` where applicable
+- Never assume fixed aspect ratios unless enforced intentionally
+
+## Validation
+- A block is NOT considered complete unless:
+  - It is usable on mobile without layout breakage
+  - Text remains readable
+  - Controls are accessible
+
+## Strict Mode
+- If a block is not responsive, it MUST NOT be released
