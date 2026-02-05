@@ -424,3 +424,16 @@ image-carousel/
 
 ## Strict Mode
 - If a block is not responsive, it MUST NOT be released
+
+
+## Header Blocks Rules
+
+- Header must be built ONLY using Gutenberg blocks
+- Header must be editable via Site Editor (Template Parts)
+- No header HTML should be hardcoded in theme PHP
+- All header-related blocks must be responsive by default
+- Mobile-first CSS is mandatory
+- Blocks must work without JavaScript on frontend
+- Navigation must degrade gracefully on small screens
+- Blocks must remain functional across theme changes
+- Accessibility is mandatory (ARIA labels, keyboard navigation)

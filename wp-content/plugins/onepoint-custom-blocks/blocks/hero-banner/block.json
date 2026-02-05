@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "onepoint/hero-banner",
+  "version": "0.2.0",
+  "title": "Hero Banner",
+  "category": "design",
+  "icon": "cover-image",
+  "description": "Carousel of hero slides: left text + right image/video. Add multiple items; indicator and play/pause below.",
+  "keywords": ["hero", "banner", "carousel", "onepoint"],
+  "textdomain": "onepoint-custom-blocks",
+  "attributes": {
+    "items": {
+      "type": "array",
+      "default": []
+    },
+    "autoplay": {
+      "type": "boolean",
+      "default": true
+    },
+    "interval": {
+      "type": "number",
+      "default": 5
+    }
+  },
+  "supports": { "html": false, "align": ["full"], "spacing": { "margin": true } },
+  "editorScript": "file:./build/index.js",
+  "editorStyle": "file:./build/style-index.css",
+  "style": "file:./build/style-index.css",
+  "viewScript": "file:./build/view.js"
+}
