@@ -134,8 +134,8 @@ function onepoint_technology_carousel_render_row( $row ) {
  */
 function onepoint_render_technology_carousel( $attributes ) {
 	$items   = isset( $attributes['items'] ) && is_array( $attributes['items'] ) ? $attributes['items'] : array();
-	$speed   = isset( $attributes['speed'] ) ? absint( $attributes['speed'] ) : 25;
-	$speed   = $speed < 15 ? 15 : ( $speed > 60 ? 60 : $speed );
+	$speed   = isset( $attributes['speed'] ) ? absint( $attributes['speed'] ) : 14;
+	$speed   = $speed < 8 ? 8 : ( $speed > 45 ? 45 : $speed );
 	$count   = count( $items );
 
 	if ( $count === 0 ) {

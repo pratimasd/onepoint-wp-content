@@ -22,7 +22,7 @@
 			var track = wrap.querySelector('.onepoint-tech-carousel-track');
 			if (!track || !track.children.length) return;
 
-			var speedSec = parseInt(wrap.dataset.speed, 10) || 25;
+			var speedSec = parseInt(wrap.dataset.speed, 10) || 14;
 			if (!wrap.id) wrap.id = 'onepoint-tech-carousel-' + Math.random().toString(36).slice(2);
 
 			/* Seamless loop: 0% = top of track, 100% = -50% (top of second duplicate = same as top). No jump on repeat. */

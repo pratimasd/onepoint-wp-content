@@ -28,7 +28,7 @@ function chunkRows(items, cols = 3) {
 }
 
 export default function Edit({ attributes, setAttributes }) {
-	const { items = [], minLogos = 6, speed = 25 } = attributes;
+	const { items = [], minLogos = 6, speed = 14 } = attributes;
 	const blockProps = useBlockProps({
 		className: 'onepoint-tech-carousel-editor-wrap',
 	});

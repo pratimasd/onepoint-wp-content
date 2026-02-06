@@ -30,7 +30,7 @@
     },
     "speed": {
       "type": "number",
-      "default": 25
+      "default": 14
     }
   },
   "supports": {
