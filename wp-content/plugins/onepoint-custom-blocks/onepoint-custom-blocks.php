@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Onepoint Custom Blocks
  * Description: Gutenberg blocks POC (Plugin vs Theme approach)
- * Version: 0.1.0
+ * Version: 0.2.0
  */
 
 defined('ABSPATH') || exit;
@@ -13,9 +13,10 @@ defined('ABSPATH') || exit;
 function onepoint_register_blocks() {
 	$blocks_dir = plugin_dir_path(__FILE__) . 'blocks';
 	$render_callbacks = array(
-		'onepoint/image-carousel'   => 'onepoint_render_image_carousel',
-		'onepoint/initiative-card'  => 'onepoint_render_initiative_card',
-		'onepoint/hero-banner'      => 'onepoint_render_hero_banner',
+		'onepoint/image-carousel'        => 'onepoint_render_image_carousel',
+		'onepoint/initiative-card'       => 'onepoint_render_initiative_card',
+		'onepoint/hero-banner'           => 'onepoint_render_hero_banner',
+		'onepoint/technology-carousel'   => 'onepoint_render_technology_carousel',
 	);
 
 	if (!is_dir($blocks_dir)) {
@@ -75,6 +76,91 @@ function onepoint_render_image_carousel($attributes) {
 	$block_content .= '</div></div>';
 
 	return $block_content;
+}
+
+/**
+ * Chunk array into rows of N columns.
+ *
+ * @param array $items Items to chunk.
+ * @param int   $cols  Number of columns per row.
+ * @return array[] Rows of items.
+ */
+function onepoint_technology_carousel_chunk_rows( $items, $cols = 3 ) {
+	$rows = array();
+	for ( $i = 0; $i < count( $items ); $i += $cols ) {
+		$rows[] = array_slice( $items, $i, $cols );
+	}
+	return $rows;
+}
+
+/**
+ * Render one row of technology carousel (3 cells: left, center elevated, right).
+ *
+ * @param array $row Items for this row (1–3 items).
+ * @return string HTML for the row.
+ */
+function onepoint_technology_carousel_render_row( $row ) {
+	$html = '<div class="onepoint-tech-carousel-row">';
+	for ( $col = 0; $col < 3; $col++ ) {
+		$item = isset( $row[ $col ] ) ? $row[ $col ] : null;
+		$is_center = $col === 1;
+		$cell_class = 'onepoint-tech-carousel-cell';
+		if ( ! $item ) {
+			$html .= '<div class="' . esc_attr( $cell_class . ' onepoint-tech-carousel-cell--empty' ) . '"></div>';
+			continue;
+		}
+		$card_class = 'onepoint-tech-carousel-cell onepoint-tech-carousel-card' . ( $is_center ? ' onepoint-tech-carousel-card--elevated' : '' );
+		$logo_url  = isset( $item['logoUrl'] ) ? esc_url( $item['logoUrl'] ) : '';
+		$logo_alt  = isset( $item['logoAlt'] ) ? esc_attr( $item['logoAlt'] ) : '';
+		$label     = isset( $item['label'] ) ? esc_html( $item['label'] ) : '';
+		$html     .= '<div class="' . esc_attr( $card_class ) . '">';
+		if ( $logo_url ) {
+			$html .= '<img src="' . $logo_url . '" alt="' . $logo_alt . '" class="onepoint-tech-carousel-card__img" loading="lazy" />';
+		}
+		if ( $label !== '' ) {
+			$html .= '<span class="onepoint-tech-carousel-card__label">' . $label . '</span>';
+		}
+		$html .= '</div>';
+	}
+	$html .= '</div>';
+	return $html;
+}
+
+/**
+ * Render the Technology Carousel block (frontend).
+ *
+ * @param array $attributes Block attributes.
+ * @return string HTML output.
+ */
+function onepoint_render_technology_carousel( $attributes ) {
+	$items   = isset( $attributes['items'] ) && is_array( $attributes['items'] ) ? $attributes['items'] : array();
+	$speed   = isset( $attributes['speed'] ) ? absint( $attributes['speed'] ) : 25;
+	$speed   = $speed < 15 ? 15 : ( $speed > 60 ? 60 : $speed );
+	$count   = count( $items );
+
+	if ( $count === 0 ) {
+		return '<div class="onepoint-tech-carousel-wrap" data-speed="' . esc_attr( $speed ) . '" data-count="0"><p class="onepoint-tech-carousel-empty">' . esc_html__( 'Add at least 6 technology logos in the block settings.', 'onepoint-custom-blocks' ) . '</p></div>';
+	}
+
+	$rows    = onepoint_technology_carousel_chunk_rows( $items, 3 );
+	$unique  = 'onepoint-tech-carousel-' . uniqid();
+	$content = '<div class="onepoint-tech-carousel-wrap" id="' . esc_attr( $unique ) . '" data-speed="' . esc_attr( $speed ) . '" data-count="' . esc_attr( $count ) . '">';
+	$content .= '<div class="onepoint-tech-carousel-track" aria-hidden="true">';
+
+	$track_html = '';
+	foreach ( $rows as $row ) {
+		$track_html .= onepoint_technology_carousel_render_row( $row );
+	}
+
+	// For seamless loop when > 9 items, duplicate the track content (viewport shows 9 cards; carousel slides upward).
+	if ( $count > 9 ) {
+		$content .= $track_html . $track_html;
+	} else {
+		$content .= $track_html;
+	}
+
+	$content .= '</div></div>';
+	return $content;
 }
 
 /**
@@ -208,3 +294,4 @@ function onepoint_render_hero_banner($attributes) {
 	$html .= '</div>';
 	return $html;
 }
+
