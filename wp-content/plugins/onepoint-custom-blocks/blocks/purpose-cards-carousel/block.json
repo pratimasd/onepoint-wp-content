@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "onepoint/purpose-cards-carousel",
+	"version": "0.2.0",
+	"title": "Purpose Cards Accordion",
+	"category": "design",
+	"icon": "grid-view",
+	"description": "Horizontal accordion: click a card to expand, one active at a time. Collapsed cards show icon and title. Fully editable via block settings.",
+	"keywords": ["accordion", "cards", "purpose", "initiative", "onepoint"],
+	"textdomain": "onepoint-custom-blocks",
+	"attributes": {
+		"sectionLabel": {"type": "string", "default": "Purpose beyond profit"},
+		"sectionHeading": {"type": "string", "default": "Always doing right by every stakeholder"},
+		"sectionDescription": {"type": "string", "default": "We believe success is best reflected in the positive difference we make – for our clients, partners, people, and communities."},
+		"ctaText": {"type": "string", "default": "Learn more about Purpose beyond profit"},
+		"ctaUrl": {"type": "string", "default": ""},
+		"items": {"type": "array", "default": []}
+	},
+	"supports": {"html": false, "align": ["wide", "full"], "spacing": {"margin": true}},
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/style-index.css",
+	"style": "file:./build/style-index.css",
+	"viewScript": "file:./build/view.js"
+}

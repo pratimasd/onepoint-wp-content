@@ -1,0 +1,615 @@
+/* Purpose Cards Accordion – Figma: node-id=3496-4297 */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap');
+
+/* Figma design tokens */
+:where(.onepoint-purpose-cards) {
+	--op-white: #FAFFFE;
+	--op-black: #07000D;
+	--op-black-soft: #020005;
+	--op-text-2: #38333D;
+	--op-text-4: #6A666D;
+	--op-text-6: #9B999E;
+	--op-text-9: #E6E5E6;
+	--op-mint: #00D3BA;
+	--op-bubblegum: #CDF0FF;
+	--op-lime: #EBFACF;
+	--op-papaya: #FEECEB;
+	--op-blackcurrant: #F3E5FF;
+	--op-lemon: #FDFBBE;
+	--op-purple: #8F00FF;
+	--op-blue: #08B4FF;
+}
+
+/* Mobile-first: vertical accordion – cards stack, one expanded at a time */
+.onepoint-purpose-cards {
+	position: relative;
+	width: 100%;
+	max-width: 1280px;
+	margin: 0 auto;
+	background: var(--op-white);
+	padding: 1.5rem 1rem 2rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 24px;
+	overflow: visible;
+}
+
+.onepoint-purpose-cards__header {
+	text-align: center;
+	max-width: 700px;
+	margin: 0;
+	padding: 0 0.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+	overflow: visible;
+}
+
+/* Section label – Figma: gradient blur behind, Manrope 16px */
+.onepoint-purpose-cards__label-wrap {
+	position: relative;
+	min-height: 40px;
+	height: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.5rem 0;
+	overflow: visible;
+}
+
+.onepoint-purpose-cards__label-wrap::before {
+	content: '';
+	position: absolute;
+	inset: -20px;
+	z-index: 0;
+	background: linear-gradient(90deg, rgba(230, 247, 255, 1) 15%, rgba(232, 204, 255, 0.9) 50%, rgba(230, 247, 255, 1) 85%);
+	filter: blur(24px);
+	pointer-events: none;
+}
+
+.onepoint-purpose-cards__label {
+	position: relative;
+	z-index: 1;
+	font-family: 'Manrope', sans-serif;
+	font-size: clamp(14px, 4vw, 16px);
+	font-weight: 400;
+	line-height: 1.5;
+	color: var(--op-black-soft);
+	text-align: center;
+	margin: 0;
+}
+
+.onepoint-purpose-cards__description {
+	font-family: 'Manrope', sans-serif;
+	font-size: clamp(0.9375rem, 2.5vw, 20px);
+	font-weight: 400;
+	line-height: 1.52;
+	color: var(--op-text-2);
+	text-align: center;
+	margin: 0 0 12px;
+}
+
+.onepoint-purpose-cards__track {
+	overflow: hidden;
+	margin: 0;
+	width: 100%;
+	align-self: stretch;
+}
+
+.onepoint-purpose-cards__track-inner {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	align-self: stretch;
+	gap: 0.75rem;
+}
+
+/* Mobile: vertical accordion – full-width cards, collapsed show title only (Figma) */
+.onepoint-purpose-cards__card {
+	box-sizing: border-box;
+	flex: none;
+	width: 100%;
+	min-width: 0;
+	min-height: 0;
+	padding: 1rem 1.25rem;
+	gap: 10px;
+	border: 1px solid var(--onepoint-card-accent, var(--op-bubblegum));
+	border-radius: 12px;
+	background: var(--op-white);
+	cursor: pointer;
+	text-align: left;
+	transition: box-shadow 0.3s ease, border-radius 0.3s ease;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: flex-start;
+}
+
+.onepoint-purpose-cards__card:not(.is-active) {
+	opacity: 0.9;
+}
+
+.onepoint-purpose-cards__card:not(.is-active):hover {
+	opacity: 1;
+}
+
+.onepoint-purpose-cards__card:hover {
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.onepoint-purpose-cards__card.is-active {
+	padding: 1.25rem 1.5rem;
+	box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+	opacity: 1;
+}
+
+/* Card content – Figma: logo block, heading, description, 48px gap */
+.onepoint-purpose-cards__card-inner {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	min-height: 0;
+	flex: 1;
+	width: 100%;
+}
+
+.onepoint-purpose-cards__card.is-active .onepoint-purpose-cards__card-inner {
+	gap: clamp(16px, 4vw, 24px);
+}
+
+/* Active card: header (icon+logo) + content, 48px between header and content */
+.onepoint-purpose-cards__card.is-active .onepoint-purpose-cards__card-header {
+	display: flex;
+	align-items: center;
+	gap: clamp(0.75rem, 2vw, 1rem);
+	width: 100%;
+	margin-bottom: clamp(16px, 4vw, 24px);
+}
+
+.onepoint-purpose-cards__card.is-active .onepoint-purpose-cards__card-header + .onepoint-purpose-cards__card-heading,
+.onepoint-purpose-cards__card.is-active .onepoint-purpose-cards__card-heading {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.onepoint-purpose-cards__card.is-active .onepoint-purpose-cards__card-desc {
+	margin: 0;
+}
+
+/* Collapsed cards: Figma – text only at bottom, no icon */
+.onepoint-purpose-cards__card:not(.is-active) .onepoint-purpose-cards__card-inner {
+	justify-content: flex-end;
+	gap: 10px;
+}
+
+.onepoint-purpose-cards__card:not(.is-active) .onepoint-purpose-cards__card-icon,
+.onepoint-purpose-cards__card:not(.is-active) .onepoint-purpose-cards__card-icon-placeholder {
+	display: none;
+}
+
+.onepoint-purpose-cards__card:not(.is-active) .onepoint-purpose-cards__card-header {
+	flex-direction: column;
+	align-items: flex-start;
+	text-align: left;
+	gap: 0;
+	width: 100%;
+}
+
+.onepoint-purpose-cards__card:not(.is-active) .onepoint-purpose-cards__card-branding {
+	align-items: flex-start;
+}
+
+.onepoint-purpose-cards__card-header {
+	display: flex;
+	flex-shrink: 0;
+}
+
+.onepoint-purpose-cards__card-icon {
+	flex-shrink: 0;
+	line-height: 0;
+}
+
+.onepoint-purpose-cards__card-icon img {
+	display: block;
+	width: 48px;
+	height: 48px;
+	object-fit: contain;
+}
+
+.onepoint-purpose-cards__card:not(.is-active) .onepoint-purpose-cards__card-icon img {
+	opacity: 0.5;
+}
+
+.onepoint-purpose-cards__card-icon-placeholder {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, #e0e7ff 0%, #fce7f3 50%, #ddd6fe 100%);
+	flex-shrink: 0;
+}
+
+.onepoint-purpose-cards__card:not(.is-active) .onepoint-purpose-cards__card-icon-placeholder {
+	opacity: 0.5;
+}
+
+.onepoint-purpose-cards__card-branding {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	min-width: 0;
+}
+
+/* Brand "ONEPOINT" – Figma: Mint accent when active */
+.onepoint-purpose-cards__card-brand {
+	font-family: 'Manrope', sans-serif;
+	font-size: 0.75rem;
+	font-weight: 500;
+	letter-spacing: -0.04em;
+	color: var(--onepoint-card-accent, var(--op-mint));
+	line-height: 1.2;
+}
+
+.onepoint-purpose-cards__card:not(.is-active) .onepoint-purpose-cards__card-brand {
+	display: block;
+	font-family: 'Manrope', sans-serif;
+	font-size: clamp(1rem, 4vw, 20px);
+	font-weight: 400;
+	line-height: 1.5em;
+	color: var(--op-text-6);
+	letter-spacing: 0;
+	text-transform: capitalize;
+}
+
+/* Title "AppShip" – Figma: Oxanium 41px when active */
+.onepoint-purpose-cards__card-title {
+	font-family: 'Oxanium', sans-serif;
+	font-size: clamp(1.25rem, 4vw, 2.5rem);
+	font-weight: 500;
+	letter-spacing: -0.04em;
+	color: #0E0019;
+	line-height: 0.88;
+}
+
+.onepoint-purpose-cards__card:not(.is-active) .onepoint-purpose-cards__card-title {
+	font-family: 'Manrope', sans-serif;
+	font-size: clamp(1rem, 4vw, 20px);
+	font-weight: 400;
+	line-height: 1.5em;
+	color: var(--op-text-6);
+	letter-spacing: 0;
+}
+
+/* Collapsed: only show branding (brand + title), hide heading and desc */
+.onepoint-purpose-cards__card:not(.is-active) .onepoint-purpose-cards__card-heading,
+.onepoint-purpose-cards__card:not(.is-active) .onepoint-purpose-cards__card-desc {
+	display: none;
+}
+
+/* Card heading – Figma: Manrope 34px, color #6A666D */
+.onepoint-purpose-cards__card-heading {
+	font-family: 'Manrope', sans-serif;
+	font-size: clamp(1.25rem, 3vw, 34px);
+	font-weight: 400;
+	color: var(--op-text-4);
+	line-height: 1.29;
+	margin: 0;
+}
+
+/* Card body – Figma: Manrope 26px P2 */
+.onepoint-purpose-cards__card-desc {
+	font-family: 'Manrope', sans-serif;
+	font-size: clamp(1rem, 2vw, 26px);
+	font-weight: 400;
+	color: var(--op-black);
+	line-height: 1.38;
+	margin: 0;
+}
+
+.onepoint-purpose-cards__cta-wrap {
+	text-align: center;
+	padding: 0;
+}
+
+/* CTA – Figma: gradient border 135deg purple→blue, Manrope 18px */
+.onepoint-purpose-cards__cta {
+	display: inline-block;
+	padding: clamp(14px, 3vw, 20px) clamp(24px, 5vw, 40px);
+	font-family: 'Manrope', sans-serif;
+	font-size: clamp(0.9375rem, 2vw, 18px);
+	font-weight: 400;
+	line-height: 1.22;
+	color: var(--op-black);
+	text-decoration: none;
+	border-radius: 9999px;
+	border: 2px solid transparent;
+	background: var(--op-white) padding-box, linear-gradient(135deg, var(--op-purple) 0%, var(--op-blue) 100%) border-box;
+	-webkit-backdrop-filter: blur(24px);
+	backdrop-filter: blur(24px);
+	transition: opacity 0.2s;
+	max-width: calc(100vw - 2rem);
+	text-align: center;
+}
+
+.onepoint-purpose-cards__cta:hover {
+	opacity: 0.9;
+	color: var(--op-black);
+}
+
+/* Editor preview */
+.onepoint-purpose-cards-editor .onepoint-purpose-cards {
+	max-width: 100%;
+}
+
+/* Mobile: smaller typography, tighter spacing */
+.onepoint-purpose-cards__card-heading {
+	font-size: 1.125rem;
+}
+
+.onepoint-purpose-cards__card.is-active .onepoint-purpose-cards__card-header {
+	margin-bottom: 1rem;
+}
+
+.onepoint-purpose-cards__card.is-active .onepoint-purpose-cards__card-heading {
+	margin-bottom: 0.5rem;
+}
+
+.onepoint-purpose-cards__card-desc {
+	font-size: 0.9375rem;
+}
+
+/* Small mobile: extra compact */
+@media (max-width: 379px) {
+	.onepoint-purpose-cards {
+		padding: 1rem 0.75rem 1.5rem;
+		gap: 20px;
+	}
+
+	.onepoint-purpose-cards__header {
+		gap: 16px;
+		padding: 0;
+	}
+
+	.onepoint-purpose-cards__label-wrap {
+		min-height: 32px;
+	}
+
+	.onepoint-purpose-cards__card {
+		padding: 0.875rem 1rem;
+	}
+
+	.onepoint-purpose-cards__card.is-active {
+		padding: 1rem 1.25rem;
+	}
+}
+
+/* Tablet (600px+): horizontal layout with scroll when needed */
+@media (min-width: 600px) {
+	.onepoint-purpose-cards__track {
+		overflow-x: auto;
+		overflow-y: hidden;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: thin;
+	}
+
+	.onepoint-purpose-cards__track-inner {
+		flex-direction: row;
+		align-items: stretch;
+		flex-wrap: nowrap;
+		min-width: min-content;
+	}
+
+	.onepoint-purpose-cards__card {
+		width: 80px;
+		min-width: 80px;
+		height: 380px;
+		padding: 0.75rem;
+	}
+
+	.onepoint-purpose-cards__card.is-active {
+		width: min(280px, 65%);
+		min-width: min(260px, 55%);
+		height: 380px;
+		padding: 1.25rem;
+	}
+}
+
+@media (min-width: 768px) {
+	.onepoint-purpose-cards {
+		padding: 2rem 1.5rem 2.5rem;
+		gap: 32px;
+	}
+
+	.onepoint-purpose-cards__header {
+		gap: 32px;
+		padding: 0 1rem;
+	}
+
+	.onepoint-purpose-cards__label-wrap {
+		min-height: 48px;
+	}
+
+	.onepoint-purpose-cards__description {
+		margin-bottom: 16px;
+	}
+
+	.onepoint-purpose-cards__track {
+		margin: 0 auto;
+		width: 100%;
+		padding: 0 0.5rem;
+	}
+
+	.onepoint-purpose-cards__track-inner {
+		gap: 0.75rem;
+		justify-content: flex-start;
+	}
+
+	.onepoint-purpose-cards__card {
+		width: 90px;
+		min-width: 90px;
+		height: 420px;
+		padding: 1rem;
+		border-radius: 14px;
+		transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), min-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-radius 0.3s ease;
+	}
+
+	.onepoint-purpose-cards__card.is-active {
+		width: min(340px, 55%);
+		min-width: min(300px, 50%);
+		height: 420px;
+		padding: 1.5rem;
+		border-radius: 16px;
+	}
+
+	.onepoint-purpose-cards__card-icon img,
+	.onepoint-purpose-cards__card-icon-placeholder {
+		width: 52px;
+		height: 52px;
+	}
+
+	.onepoint-purpose-cards__card-heading {
+		font-size: 1.25rem;
+	}
+
+	.onepoint-purpose-cards__card-desc {
+		font-size: 1rem;
+	}
+
+	.onepoint-purpose-cards__card.is-active .onepoint-purpose-cards__card-header {
+		margin-bottom: 1.25rem;
+	}
+
+	.onepoint-purpose-cards__card.is-active .onepoint-purpose-cards__card-heading {
+		margin-bottom: 0.75rem;
+	}
+}
+
+/* Desktop: full Figma 540/145/535 – horizontal accordion */
+@media (min-width: 1024px) {
+	.onepoint-purpose-cards__track {
+		padding: 0 1rem;
+	}
+
+	.onepoint-purpose-cards__track-inner {
+		gap: 16px;
+	}
+
+	.onepoint-purpose-cards__card {
+		width: 120px;
+		min-width: 120px;
+		height: 480px;
+		padding: 20px;
+	}
+
+	.onepoint-purpose-cards__card.is-active {
+		width: min(480px, 50%);
+		min-width: min(400px, 45%);
+		height: 480px;
+		padding: 2rem 2.5rem;
+	}
+
+	.onepoint-purpose-cards__card-icon img,
+	.onepoint-purpose-cards__card-icon-placeholder {
+		width: 60px;
+		height: 60px;
+	}
+
+	.onepoint-purpose-cards__card-heading {
+		font-size: 1.375rem;
+	}
+
+	.onepoint-purpose-cards__card-desc {
+		font-size: 1.125rem;
+	}
+
+	.onepoint-purpose-cards__card.is-active .onepoint-purpose-cards__card-header {
+		margin-bottom: 1.5rem;
+	}
+
+	.onepoint-purpose-cards__card.is-active .onepoint-purpose-cards__card-heading {
+		margin-bottom: 0.875rem;
+	}
+
+	.onepoint-purpose-cards__card-title {
+		font-size: 1.375rem;
+	}
+}
+
+/* Desktop 1200px+: Figma padding 80px 48px */
+@media (min-width: 1200px) {
+	.onepoint-purpose-cards {
+		padding: 4rem 2rem 5rem;
+	}
+
+	.onepoint-purpose-cards__label-wrap::before {
+		filter: blur(32px);
+	}
+}
+
+/* Desktop 1280px+: full Figma spec */
+@media (min-width: 1280px) {
+	.onepoint-purpose-cards {
+		padding: 80px 48px;
+	}
+
+	.onepoint-purpose-cards__label-wrap::before {
+		filter: blur(40px);
+		inset: -24px;
+	}
+	.onepoint-purpose-cards__card {
+		width: 145px;
+		min-width: 145px;
+		height: 535px;
+		padding: 24px;
+	}
+
+	.onepoint-purpose-cards__card.is-active {
+		width: 540px;
+		min-width: 540px;
+		height: 535px;
+		padding: 48px;
+	}
+
+	.onepoint-purpose-cards__card-icon img,
+	.onepoint-purpose-cards__card-icon-placeholder {
+		width: 64px;
+		height: 64px;
+	}
+
+	.onepoint-purpose-cards__card-heading {
+		font-size: 34px;
+	}
+
+	.onepoint-purpose-cards__card-desc {
+		font-size: 26px;
+	}
+
+	.onepoint-purpose-cards__card.is-active .onepoint-purpose-cards__card-header {
+		margin-bottom: 24px;
+	}
+
+	.onepoint-purpose-cards__card.is-active .onepoint-purpose-cards__card-heading {
+		margin-bottom: 1rem;
+	}
+
+	.onepoint-purpose-cards__card-title {
+		font-size: 1.5rem;
+	}
+
+	.onepoint-purpose-cards__track {
+		overflow-x: visible;
+	}
+
+	.onepoint-purpose-cards__track-inner {
+		justify-content: center;
+		flex-wrap: nowrap;
+	}
+}
+
+/* Large desktop: constrain max width for readability */
+@media (min-width: 1400px) {
+	.onepoint-purpose-cards__card.is-active {
+		max-width: 540px;
+	}
+}

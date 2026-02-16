@@ -1,0 +1,46 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "onepoint/contact-form",
+	"version": "0.1.0",
+	"title": "Contact Form",
+	"category": "design",
+	"icon": "email",
+	"description": "Contact form with heading, description, and configurable fields. Lets visitors reach out via name, company, email, LinkedIn, and message.",
+	"keywords": ["contact", "form", "onepoint"],
+	"textdomain": "onepoint-custom-blocks",
+	"attributes": {
+		"sectionLabel": {
+			"type": "string",
+			"default": "Contact us"
+		},
+		"heading": {
+			"type": "string",
+			"default": "Let's build something together"
+		},
+		"description": {
+			"type": "string",
+			"default": "Whether you have a question, need support, or just want to learn more about Onepoint, our team is here to help."
+		},
+		"buttonText": {
+			"type": "string",
+			"default": "Get in touch"
+		},
+		"recipientEmail": {
+			"type": "string",
+			"default": ""
+		},
+		"successMessage": {
+			"type": "string",
+			"default": "Thank you! We'll get back to you soon."
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"spacing": { "margin": true, "padding": true }
+	},
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/style-index.css",
+	"style": "file:./build/style-index.css"
+}

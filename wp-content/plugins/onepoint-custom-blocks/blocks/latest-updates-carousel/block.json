@@ -1,0 +1,51 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "onepoint/latest-updates-carousel",
+	"version": "0.2.5",
+	"title": "Latest Updates Carousel",
+	"category": "design",
+	"icon": "slides",
+	"description": "Carousel showing 3 cards at a time with image, category tag, title, and CTA. Auto-slides when more than 3 cards. Fully editable via block settings.",
+	"keywords": ["latest", "updates", "carousel", "cards", "onepoint", "signal"],
+	"textdomain": "onepoint-custom-blocks",
+	"attributes": {
+		"sectionLabel": {
+			"type": "string",
+			"default": "Onepoint Signal"
+		},
+		"sectionHeading": {
+			"type": "string",
+			"default": "Latest updates"
+		},
+		"sectionDescription": {
+			"type": "string",
+			"default": "Catch up on our latest announcements and thought leadership. From key milestones to expert insights – see how we're shaping what's next."
+		},
+		"items": {
+			"type": "array",
+			"default": [
+				{ "categoryTag": "Press - release", "title": "Onepoint wins Boomi EMEA Teaming Systems Integrator Partner of the Year 2023 award", "buttonText": "Read press release", "buttonUrl": "" },
+				{ "categoryTag": "Webinar on demand", "title": "In this webinar, we explore how workflows and complex interactions go beyond chat to boost LLM utility and efficiency.", "buttonText": "Access the webinar", "buttonUrl": "" },
+				{ "categoryTag": "Blog", "title": "Onepoint demonstrates AI-driven enterprise innovation at Boomi World 2025, Dallas", "buttonText": "Read event highlights", "buttonUrl": "" }
+			]
+		},
+		"autoplay": {
+			"type": "boolean",
+			"default": true
+		},
+		"interval": {
+			"type": "number",
+			"default": 6
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"spacing": { "margin": true }
+	},
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/style-index.css",
+	"style": "file:./build/style-index.css",
+	"viewScript": "file:./build/view.js"
+}

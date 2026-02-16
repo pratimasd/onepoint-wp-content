@@ -28,7 +28,7 @@ function chunkRows(items, cols = 3) {
 }
 
 export default function Edit({ attributes, setAttributes }) {
-	const { items = [], minLogos = 6, speed = 14 } = attributes;
+	const { badgeText = 'Technology platforms & tools', heading = 'Trusted partnerships and proven tech expertise', subtitle = 'We apply the right tech solutions quickly through strong partnerships and expertise.', items = [], minLogos = 6, speed = 8 } = attributes;
 	const blockProps = useBlockProps({
 		className: 'onepoint-tech-carousel-editor-wrap',
 	});
@@ -73,6 +73,26 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<>
 			<InspectorControls>
+				<PanelBody title={__('Header content', 'onepoint-custom-blocks')} initialOpen={true}>
+					<TextControl
+						label={__('Badge text', 'onepoint-custom-blocks')}
+						value={badgeText || ''}
+						onChange={(val) => setAttributes({ badgeText: val })}
+						placeholder="Technology platforms & tools"
+					/>
+					<TextControl
+						label={__('Heading', 'onepoint-custom-blocks')}
+						value={heading || ''}
+						onChange={(val) => setAttributes({ heading: val })}
+						placeholder="Trusted partnerships and proven tech expertise"
+					/>
+					<TextControl
+						label={__('Subtitle', 'onepoint-custom-blocks')}
+						value={subtitle || ''}
+						onChange={(val) => setAttributes({ subtitle: val })}
+						placeholder="We apply the right tech solutions quickly..."
+					/>
+				</PanelBody>
 				<PanelBody title={__('Technology Carousel settings', 'onepoint-custom-blocks')} initialOpen={true}>
 					<p style={{ marginBottom: '12px', color: '#1e1e1e' }}>
 						{__('Nine cards (3×3) are shown at once. When you add more than 9 items, the carousel will automatically slide upward.', 'onepoint-custom-blocks')}
@@ -88,9 +108,9 @@ export default function Edit({ attributes, setAttributes }) {
 					<RangeControl
 						label={__('Scroll speed (seconds per loop)', 'onepoint-custom-blocks')}
 						value={speed}
-						min={15}
-						max={60}
-						step={5}
+						min={5}
+						max={45}
+						step={1}
 						onChange={(val) => setAttributes({ speed: val })}
 					/>
 					<div style={{ marginTop: '12px' }}>
@@ -147,17 +167,26 @@ export default function Edit({ attributes, setAttributes }) {
 				</PanelBody>
 			</InspectorControls>
 			<div {...blockProps}>
-				<div className="onepoint-tech-carousel-editor-preview">
-					{items.length === 0 ? (
-						<div className="onepoint-tech-carousel-editor-empty">
-							{__('Technology Carousel', 'onepoint-custom-blocks')}
-							<br />
-							<span className="onepoint-tech-carousel-editor-hint">
-								{__('Add technology logos via block settings (sidebar) → Technology Carousel settings. Nine cards show at once; with more than 9, the carousel slides upward.', 'onepoint-custom-blocks')}
-							</span>
+				<div className="onepoint-tech-carousel-section">
+					<div className="onepoint-tech-carousel-header">
+						<div className="onepoint-tech-carousel-label-wrap">
+							<span className="onepoint-tech-carousel-label">{badgeText || __('Technology platforms & tools', 'onepoint-custom-blocks')}</span>
 						</div>
-					) : (
-						<div className="onepoint-tech-carousel-wrap onepoint-tech-carousel-editor-inner" data-animate="false">
+						<h2 className="onepoint-tech-carousel-heading">{heading || __('Trusted partnerships and proven tech expertise', 'onepoint-custom-blocks')}</h2>
+						<p className="onepoint-tech-carousel-subtitle">{subtitle || __('We apply the right tech solutions quickly through strong partnerships and expertise.', 'onepoint-custom-blocks')}</p>
+					</div>
+					<div className="onepoint-tech-carousel-carousel-container">
+					<div className="onepoint-tech-carousel-editor-preview">
+						{items.length === 0 ? (
+							<div className="onepoint-tech-carousel-editor-empty">
+								{__('Technology Carousel', 'onepoint-custom-blocks')}
+								<br />
+								<span className="onepoint-tech-carousel-editor-hint">
+									{__('Add technology logos via block settings (sidebar) → Technology Carousel settings. Nine cards show at once; with more than 9, the carousel slides upward.', 'onepoint-custom-blocks')}
+								</span>
+							</div>
+						) : (
+							<div className="onepoint-tech-carousel-wrap onepoint-tech-carousel-editor-inner" data-animate="false">
 							<div className="onepoint-tech-carousel-track">
 								{rows.map((row, rowIndex) => (
 									<div key={'row-' + rowIndex} className="onepoint-tech-carousel-row">
@@ -184,7 +213,9 @@ export default function Edit({ attributes, setAttributes }) {
 							</div>
 						</div>
 					)}
+					</div>
 				</div>
+			</div>
 			</div>
 		</>
 	);
