@@ -16,6 +16,8 @@ function onepoint_register_blocks() {
 		'onepoint/image-carousel'   => 'onepoint_render_image_carousel',
 		'onepoint/initiative-card'  => 'onepoint_render_initiative_card',
 		'onepoint/hero-banner'      => 'onepoint_render_hero_banner',
+		'onepoint/header'           => 'onepoint_render_header',
+		'onepoint/footer'           => 'onepoint_render_footer',
 	);
 
 	if (!is_dir($blocks_dir)) {
@@ -207,4 +209,233 @@ function onepoint_render_hero_banner($attributes) {
 
 	$html .= '</div>';
 	return $html;
+}
+
+/**
+ * Fallback link lists for footer columns (plugin fallback when theme helpers not used).
+ */
+function onepoint_plugin_footer_fallback($location) {
+	$home = home_url('/');
+	$lists = array(
+		'footer_what_we_do' => array(
+			array('label' => 'Architect for outcomes', 'url' => $home),
+			array('label' => 'Do data better', 'url' => $home),
+			array('label' => 'Innovate with AI & more', 'url' => $home),
+			array('label' => 'Springboard™ Workshop', 'url' => $home),
+			array('label' => 'Onepoint Labs', 'url' => $home),
+		),
+		'footer_resources' => array(
+			array('label' => 'Onepoint Data Wellness™ Suite', 'url' => $home),
+			array('label' => 'Onepoint Res-AI™', 'url' => $home),
+			array('label' => 'Onepoint TechTalk', 'url' => $home),
+			array('label' => 'Onepoint Oneness', 'url' => $home),
+		),
+		'footer_about' => array(
+			array('label' => 'Discover Onepoint', 'url' => $home),
+			array('label' => 'Client stories', 'url' => $home),
+			array('label' => 'Careers', 'url' => $home),
+			array('label' => 'Contact us', 'url' => $home),
+		),
+		'footer_more_info' => array(
+			array('label' => 'Boomi', 'url' => $home),
+			array('label' => 'Client stories', 'url' => $home),
+			array('label' => 'Careers', 'url' => $home),
+			array('label' => 'Contact us', 'url' => $home),
+		),
+	);
+	return isset($lists[ $location ]) ? $lists[ $location ] : array();
+}
+
+/**
+ * Render one footer column (menu or fallback). Used by onepoint_render_footer.
+ */
+function onepoint_plugin_footer_column($location, $title, $highlight = '') {
+	$fallback = function_exists('onepoint_footer_what_we_do_fallback') ? call_user_func('onepoint_footer_' . str_replace('footer_', '', $location) . '_fallback') : onepoint_plugin_footer_fallback($location);
+	$html = '<div class="footer-col">';
+	$html .= '<h3 class="footer-col__title">' . esc_html($title) . '</h3>';
+	if (has_nav_menu($location)) {
+		ob_start();
+		wp_nav_menu(array(
+			'theme_location' => $location,
+			'container'      => false,
+			'menu_class'     => 'footer-col__list',
+			'fallback_cb'    => false,
+		));
+		$html .= ob_get_clean();
+	} else {
+		$html .= '<ul class="footer-col__list">';
+		foreach ($fallback as $item) {
+			$label = isset($item['label']) ? $item['label'] : '';
+			$url   = isset($item['url']) ? $item['url'] : home_url('/');
+			$class = ($highlight && $label === $highlight) ? ' is-active' : '';
+			$html .= '<li><a href="' . esc_url($url) . '" class="' . esc_attr($class) . '">' . esc_html($label) . '</a></li>';
+		}
+		$html .= '</ul>';
+	}
+	$html .= '</div>';
+	return $html;
+}
+
+/**
+ * Render the Onepoint Header block (frontend).
+ */
+function onepoint_render_header($attributes) {
+	$site_name = isset($attributes['siteName']) && $attributes['siteName'] !== '' ? $attributes['siteName'] : ( function_exists('get_theme_mod') && get_theme_mod('header_site_name', '') !== '' ? get_theme_mod('header_site_name') : get_bloginfo('name') );
+	$menu_loc  = isset($attributes['menuLocation']) ? sanitize_key($attributes['menuLocation']) : 'primary';
+	$icon_url  = isset($attributes['iconUrl']) && $attributes['iconUrl'] !== '' ? $attributes['iconUrl'] : ( function_exists('get_theme_mod') && get_theme_mod('header_icon_url', '') !== '' ? get_theme_mod('header_icon_url') : ( function_exists('onepoint_header_icon_url') ? onepoint_header_icon_url() : '' ) );
+	$admin_logo_url = function_exists('get_theme_mod') ? get_theme_mod('header_logo_url', '') : '';
+	$default_logo_url = function_exists('onepoint_header_logo_url') ? onepoint_header_logo_url() : '';
+	$logo_url = ($admin_logo_url !== '') ? $admin_logo_url : $default_logo_url;
+
+	ob_start();
+	?>
+	<header id="masthead" class="site-header" role="banner">
+		<div class="header-inner">
+			<div class="header-brand">
+				<a href="<?php echo esc_url(home_url('/')); ?>" class="site-logo" rel="home">
+					<?php if ($logo_url !== '') : ?>
+						<img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo esc_attr($site_name); ?>" class="site-logo-img" width="180" height="48" />
+					<?php elseif (has_custom_logo()) : ?>
+						<?php the_custom_logo(); ?>
+					<?php else : ?>
+						<span class="site-name"><?php echo esc_html($site_name); ?></span>
+					<?php endif; ?>
+				</a>
+			</div>
+			<button type="button" class="header-toggle" aria-controls="primary-menu" aria-expanded="false" aria-label="<?php esc_attr_e('Toggle menu', 'onepoint-custom-blocks'); ?>">
+				<span class="hamburger" aria-hidden="true"></span>
+			</button>
+			<nav id="site-navigation" class="header-nav" aria-label="<?php esc_attr_e('Primary', 'onepoint-custom-blocks'); ?>">
+				<?php
+				wp_nav_menu(array(
+					'theme_location' => $menu_loc,
+					'menu_id'        => 'primary-menu',
+					'menu_class'     => 'nav-menu',
+					'container'      => false,
+					'fallback_cb'    => function_exists('onepoint_header_fallback_menu') ? 'onepoint_header_fallback_menu' : null,
+				));
+				?>
+			</nav>
+			<div class="header-icons" aria-hidden="true">
+				<?php
+				if ($icon_url) :
+					for ($i = 0; $i < 3; $i++) :
+				?>
+				<span class="header-icon header-icon-custom">
+					<img src="<?php echo esc_url($icon_url); ?>" alt="" width="24" height="24" loading="lazy" />
+				</span>
+				<?php
+					endfor;
+				else :
+					$flask_svg = '<svg class="icon-flask" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2v5M15 2v5"/><path d="M8 7h8l2.5 14H5.5L8 7z"/><line x1="8" y1="14" x2="16" y2="14"/><circle cx="10" cy="15" r="1"/><circle cx="14" cy="16" r="1"/></svg>';
+				?>
+				<span class="header-icon header-icon-flask"><?php echo $flask_svg; ?></span>
+				<span class="header-icon header-icon-flask"><?php echo $flask_svg; ?></span>
+				<span class="header-icon header-icon-flask"><?php echo $flask_svg; ?></span>
+				<?php endif; ?>
+			</div>
+		</div>
+	</header>
+	<?php
+	return ob_get_clean();
+}
+
+/**
+ * Render the Onepoint Footer block (frontend).
+ */
+function onepoint_render_footer($attributes) {
+	$col1   = isset($attributes['col1Title']) ? $attributes['col1Title'] : ( function_exists('get_theme_mod') ? get_theme_mod('footer_col1_title', 'What we do') : 'What we do' );
+	$col2   = isset($attributes['col2Title']) ? $attributes['col2Title'] : ( function_exists('get_theme_mod') ? get_theme_mod('footer_col2_title', 'Resources') : 'Resources' );
+	$col3   = isset($attributes['col3Title']) ? $attributes['col3Title'] : ( function_exists('get_theme_mod') ? get_theme_mod('footer_col3_title', 'About us') : 'About us' );
+	$col4   = isset($attributes['col4Title']) ? $attributes['col4Title'] : ( function_exists('get_theme_mod') ? get_theme_mod('footer_col4_title', 'More info') : 'More info' );
+	$btn_col = isset($attributes['btnCollapse']) ? $attributes['btnCollapse'] : ( function_exists('get_theme_mod') ? get_theme_mod('footer_btn_collapse', 'Hide full footer') : 'Hide full footer' );
+	$btn_exp = isset($attributes['btnExpand']) ? $attributes['btnExpand'] : ( function_exists('get_theme_mod') ? get_theme_mod('footer_btn_expand', 'Show full footer') : 'Show full footer' );
+	$terms_url = isset($attributes['termsUrl']) && $attributes['termsUrl'] !== '' ? $attributes['termsUrl'] : home_url('/terms');
+	$cook_url  = isset($attributes['cookiesUrl']) && $attributes['cookiesUrl'] !== '' ? $attributes['cookiesUrl'] : home_url('/cookies');
+	$pol_label = isset($attributes['policiesLabel']) ? $attributes['policiesLabel'] : ( function_exists('get_theme_mod') ? get_theme_mod('footer_policies_label', 'Policies') : 'Policies' );
+	$terms_label = isset($attributes['termsLabel']) ? $attributes['termsLabel'] : ( function_exists('get_theme_mod') ? get_theme_mod('footer_terms_label', 'Terms and conditions') : 'Terms and conditions' );
+	$cook_label  = isset($attributes['cookiesLabel']) ? $attributes['cookiesLabel'] : ( function_exists('get_theme_mod') ? get_theme_mod('footer_cookies_label', 'Cookies') : 'Cookies' );
+	$copyright   = isset($attributes['copyright']) ? $attributes['copyright'] : ( function_exists('get_theme_mod') ? get_theme_mod('footer_copyright', 'Onepoint Consulting Ltd') : 'Onepoint Consulting Ltd' );
+
+	$use_theme_column = function_exists('onepoint_footer_column');
+
+	ob_start();
+	?>
+	<footer id="site-footer" class="site-footer" role="contentinfo">
+		<div class="footer-inner">
+			<div class="footer-top" id="footer-full">
+				<div class="footer-cols">
+					<?php
+					if ($use_theme_column) {
+						onepoint_footer_column('footer_what_we_do', $col1, onepoint_footer_what_we_do_fallback(), 'Innovate with AI & more');
+						onepoint_footer_column('footer_resources', $col2, onepoint_footer_resources_fallback());
+						onepoint_footer_column('footer_about', $col3, onepoint_footer_about_fallback());
+						onepoint_footer_column('footer_more_info', $col4, onepoint_footer_more_info_fallback());
+					} else {
+						echo onepoint_plugin_footer_column('footer_what_we_do', $col1, 'Innovate with AI & more');
+						echo onepoint_plugin_footer_column('footer_resources', $col2);
+						echo onepoint_plugin_footer_column('footer_about', $col3);
+						echo onepoint_plugin_footer_column('footer_more_info', $col4);
+					}
+					?>
+				</div>
+			</div>
+			<div class="footer-mobile-accordion" aria-hidden="true">
+				<?php
+				$sections = array(
+					'footer_what_we_do' => array('title' => $col1, 'fallback' => $use_theme_column ? onepoint_footer_what_we_do_fallback() : onepoint_plugin_footer_fallback('footer_what_we_do'), 'highlight' => 'Innovate with AI & more'),
+					'footer_resources'  => array('title' => $col2, 'fallback' => $use_theme_column ? onepoint_footer_resources_fallback() : onepoint_plugin_footer_fallback('footer_resources'), 'highlight' => ''),
+					'footer_about'      => array('title' => $col3, 'fallback' => $use_theme_column ? onepoint_footer_about_fallback() : onepoint_plugin_footer_fallback('footer_about'), 'highlight' => ''),
+					'footer_more_info'  => array('title' => $col4, 'fallback' => $use_theme_column ? onepoint_footer_more_info_fallback() : onepoint_plugin_footer_fallback('footer_more_info'), 'highlight' => ''),
+				);
+				foreach ($sections as $loc => $args) :
+					$fallback = $args['fallback'];
+				?>
+				<div class="footer-accordion-item">
+					<button type="button" class="footer-accordion-trigger" aria-expanded="false" aria-controls="footer-acc-<?php echo esc_attr($loc); ?>" id="footer-acc-btn-<?php echo esc_attr($loc); ?>">
+						<span class="footer-accordion-trigger-text"><?php echo esc_html($args['title']); ?></span>
+						<span class="footer-accordion-trigger-icon" aria-hidden="true"></span>
+					</button>
+					<div class="footer-accordion-panel" id="footer-acc-<?php echo esc_attr($loc); ?>" role="region" aria-labelledby="footer-acc-btn-<?php echo esc_attr($loc); ?>" hidden>
+						<ul class="footer-accordion-list">
+							<?php foreach ($fallback as $item) :
+								$label = isset($item['label']) ? $item['label'] : '';
+								$url   = isset($item['url']) ? $item['url'] : home_url('/');
+								$cls   = ($args['highlight'] && $label === $args['highlight']) ? ' class="is-active"' : '';
+							?>
+							<li><a href="<?php echo esc_url($url); ?>"<?php echo $cls; ?>><?php echo esc_html($label); ?></a></li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
+				</div>
+				<?php endforeach; ?>
+			</div>
+			<div class="footer-bottom">
+				<button type="button" class="footer-toggle-full" id="footer-toggle-full" aria-expanded="true" aria-controls="footer-full" aria-label="<?php echo esc_attr($btn_col); ?>" data-label-collapse="<?php echo esc_attr($btn_col); ?>" data-label-expand="<?php echo esc_attr($btn_exp); ?>">
+					<?php echo esc_html($btn_col); ?>
+				</button>
+				<div class="footer-brand-row">
+					<div class="footer-brand">
+						<a href="<?php echo esc_url(home_url('/')); ?>" class="footer-logo" rel="home">
+							<?php if (has_custom_logo()) : ?>
+								<?php the_custom_logo(); ?>
+							<?php else : ?>
+								<span class="footer-logo-text"><?php echo esc_html(get_bloginfo('name')); ?></span>
+							<?php endif; ?>
+						</a>
+					</div>
+				</div>
+				<div class="footer-legal">
+					<nav class="footer-policies" aria-label="<?php echo esc_attr($pol_label); ?>">
+						<span class="footer-policies-label"><?php echo esc_html($pol_label); ?></span>
+						<a href="<?php echo esc_url($terms_url); ?>"><?php echo esc_html($terms_label); ?></a>
+						<a href="<?php echo esc_url($cook_url); ?>"><?php echo esc_html($cook_label); ?></a>
+					</nav>
+					<p class="footer-copyright">© <?php echo esc_html(gmdate('Y')); ?> <?php echo esc_html($copyright); ?></p>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<?php
+	return ob_get_clean();
 }
