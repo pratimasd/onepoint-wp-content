@@ -1,0 +1,619 @@
+/* Client Stories Carousel – Figma: node-id=3496-4237 */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700&display=swap');
+
+/* Figma design tokens */
+:where(.onepoint-client-stories) {
+	--op-white: #FAFFFE;
+	--op-black: #07000D;
+	--op-black-soft: #020005;
+	--op-text-2: #38333D;
+	--op-text-4: #6A666D;
+	--op-text-5: #837F86;
+	--op-text-9: #E6E5E6;
+	--op-blue: #08B4FF;
+	--op-purple: #8F00FF;
+	--op-gradient-border: linear-gradient(135deg, rgba(143, 0, 255, 1) 0%, rgba(8, 180, 255, 1) 100%);
+	--op-gradient-top: conic-gradient(from 270deg at 34% 0%, rgba(8, 180, 255, 1) 0%, rgba(230, 229, 230, 1) 52%);
+}
+
+@keyframes onepoint-progress-fill {
+	from { width: 0; }
+	to { width: 100%; }
+}
+
+/* Section wrapper – Figma: 1280px max, padding 80px 48px, gap 48px */
+.onepoint-client-stories {
+	position: relative;
+	width: 100%;
+	max-width: 1280px;
+	margin: 0 auto;
+	background: var(--op-white);
+	padding: clamp(2rem, 5vw, 5rem) clamp(1rem, 4vw, 3rem);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: clamp(1.5rem, 3vw, 3rem);
+}
+
+/* Header – gradient blur behind "Client stories", Manrope 16px */
+.onepoint-client-stories__header {
+	position: relative;
+	min-height: 52px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.5rem 0;
+	overflow: visible;
+}
+
+.onepoint-client-stories__header::before {
+	content: '';
+	position: absolute;
+	inset: -24px;
+	z-index: 0;
+	background: linear-gradient(90deg, rgba(230, 247, 255, 1) 15%, rgba(232, 204, 255, 0.9) 50%, rgba(230, 247, 255, 1) 85%);
+	filter: blur(40px);
+	pointer-events: none;
+}
+
+.onepoint-client-stories__heading {
+	position: relative;
+	z-index: 1;
+	font-family: 'Manrope', sans-serif;
+	font-size: clamp(14px, 2vw, 16px);
+	font-weight: 400;
+	line-height: 2.25;
+	color: var(--op-black-soft);
+	margin: 0;
+}
+
+/* Card container – tabs + content as one rounded card */
+.onepoint-client-stories__card {
+	width: 100%;
+	max-width: 1184px;
+	border-radius: 16px;
+	overflow: hidden;
+	box-shadow: 0 4px 24px rgba(7, 0, 13, 0.06);
+}
+
+/* List – desktop: tabs row + content row; mobile: tab+content pairs stacked */
+.onepoint-client-stories__list {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	grid-template-rows: auto 1fr;
+	background: var(--op-white);
+	border: 1px solid var(--op-text-9);
+	border-radius: 16px;
+	overflow: hidden;
+}
+
+.onepoint-client-stories__item {
+	display: contents;
+}
+
+.onepoint-client-stories__tab {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	padding: 24px;
+	background: none;
+	border: none;
+	border-right: 1px solid var(--op-text-9);
+	cursor: pointer;
+	position: relative;
+	text-align: left;
+	min-width: 0;
+	flex: 1 1 auto;
+	max-width: 280px;
+	gap: 12px;
+	transition: color 0.2s;
+	grid-row: 1;
+}
+
+.onepoint-client-stories__item:last-child .onepoint-client-stories__tab {
+	border-right: none;
+}
+
+.onepoint-client-stories__tab:hover {
+	color: var(--op-blue);
+}
+
+.onepoint-client-stories__tab.is-active {
+	color: var(--op-blue);
+}
+
+.onepoint-client-stories__tab-title {
+	font-family: 'Manrope', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.25;
+	display: block;
+}
+
+.onepoint-client-stories__tab.is-active .onepoint-client-stories__tab-title {
+	font-weight: 600;
+	color: var(--op-blue);
+}
+
+.onepoint-client-stories__tab-subtitle {
+	font-family: 'Manrope', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.25;
+	color: var(--op-text-5);
+}
+
+.onepoint-client-stories__tab.is-active .onepoint-client-stories__tab-subtitle {
+	color: var(--op-text-4);
+	font-weight: 600;
+}
+
+.onepoint-client-stories__tab-progress {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 3px;
+	background: rgba(8, 180, 255, 0.15);
+	overflow: hidden;
+	display: none;
+}
+
+.onepoint-client-stories__tab.is-active .onepoint-client-stories__tab-progress {
+	display: block;
+}
+
+.onepoint-client-stories__tab-progress-fill {
+	display: block;
+	height: 100%;
+	background: var(--op-blue);
+	width: 0;
+	animation: onepoint-progress-fill 6s linear forwards;
+}
+
+/* Content area – desktop: row 2, spans all cols; mobile: below each tab */
+.onepoint-client-stories__content {
+	position: relative;
+	min-height: 400px;
+	grid-row: 2;
+	grid-column: 1 / -1;
+	border-top: 1px solid var(--op-text-9);
+	overflow: hidden;
+}
+
+.onepoint-client-stories__content:not(:has(.onepoint-client-stories__slide.is-active)) {
+	display: none;
+}
+
+.onepoint-client-stories__slide {
+	display: none;
+	position: relative;
+	min-height: 400px;
+	transition: opacity 0.35s ease;
+}
+
+.onepoint-client-stories__slide.is-active {
+	display: flex;
+}
+
+/* Dark overlay + background image – Figma: rgba(7,0,13,0.45) + image */
+.onepoint-client-stories__slide-bg {
+	position: absolute;
+	inset: 0;
+	background: #2a2432 url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect fill="%231a1520" width="400" height="300"/></svg>') center/cover;
+}
+
+.onepoint-client-stories__slide-bg::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: rgba(7, 0, 13, 0.45);
+	pointer-events: none;
+}
+
+/* Conic gradient top border – Figma: 4px top */
+.onepoint-client-stories__slide::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 4px;
+	background: var(--op-gradient-top);
+	z-index: 2;
+}
+
+/* Inner layout – Figma: padding 48px, gap 72px */
+.onepoint-client-stories__slide-inner {
+	position: relative;
+	display: grid;
+	grid-template-columns: 1fr 320px;
+	gap: clamp(2rem, 5vw, 4.5rem);
+	width: 100%;
+	padding: clamp(1.5rem, 3vw, 3rem);
+	align-items: center;
+	z-index: 1;
+}
+
+.onepoint-client-stories__slide-left {
+	display: flex;
+	flex-direction: column;
+	gap: clamp(1rem, 2vw, 2rem);
+}
+
+/* Headline – Figma: Oxanium 60px, white */
+.onepoint-client-stories__slide-headline {
+	font-family: 'Oxanium', sans-serif;
+	font-size: clamp(1.5rem, 4vw, 3.75rem);
+	font-weight: 400;
+	line-height: 1.07;
+	color: var(--op-white);
+	margin: 0;
+	max-width: 100%;
+}
+
+/* Description – Figma: Manrope 20px, light on dark */
+.onepoint-client-stories__slide-desc {
+	font-family: 'Manrope', sans-serif;
+	font-size: clamp(1rem, 1.5vw, 1.25rem);
+	font-weight: 400;
+	line-height: 1.52;
+	color: rgba(255, 255, 255, 0.92);
+	margin: 0;
+	max-width: 36em;
+}
+
+/* CTA button – Figma: gradient border, dark bg, blur, padding 20px 40px */
+.onepoint-client-stories__slide-cta {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px 40px;
+	font-family: 'Manrope', sans-serif;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.22;
+	color: var(--op-white);
+	text-decoration: none;
+	border-radius: 16px;
+	align-self: flex-start;
+	background: rgba(7, 0, 13, 0.55);
+	border: 2px solid transparent;
+	background-image: linear-gradient(rgba(7, 0, 13, 0.55), rgba(7, 0, 13, 0.55)), var(--op-gradient-border);
+	background-origin: border-box;
+	background-clip: padding-box, border-box;
+	backdrop-filter: blur(24px);
+	transition: opacity 0.2s, transform 0.2s;
+}
+
+.onepoint-client-stories__slide-cta:hover {
+	opacity: 0.95;
+	color: var(--op-white);
+	transform: translateY(-1px);
+}
+
+/* Tags – Figma: pill style with chevrons, white text, backdrop blur */
+.onepoint-client-stories__slide-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.onepoint-client-stories__tag {
+	font-family: 'Manrope', sans-serif;
+	font-size: clamp(14px, 1.2vw, 18px);
+	font-weight: 400;
+	line-height: 1.33;
+	color: var(--op-white);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 8px 12px;
+	border-radius: 8px;
+	backdrop-filter: blur(80px);
+	background: rgba(255, 255, 255, 0.08);
+}
+
+.onepoint-client-stories__tag-chevron {
+	opacity: 0.9;
+	font-size: 0.9em;
+}
+
+/* Right panel – metrics card – Figma: white bg, 16px radius, padding 24px */
+.onepoint-client-stories__slide-right {
+	flex-shrink: 0;
+}
+
+.onepoint-client-stories__metrics {
+	background: var(--op-white);
+	border: 1px solid var(--op-text-9);
+	border-radius: 16px;
+	padding: 24px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 10px;
+	min-height: 200px;
+}
+
+.onepoint-client-stories__metric {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.onepoint-client-stories__metric-value {
+	font-family: 'Manrope', sans-serif;
+	font-size: clamp(2rem, 4vw, 3.75rem);
+	font-weight: 500;
+	line-height: 1.07;
+	letter-spacing: -0.03em;
+	color: var(--op-black);
+}
+
+.onepoint-client-stories__metric-label {
+	font-family: 'Manrope', sans-serif;
+	font-size: clamp(1rem, 1.2vw, 1.25rem);
+	font-weight: 400;
+	line-height: 1.2;
+	color: var(--op-text-2);
+}
+
+/* Controls – prev / play-pause / next */
+.onepoint-client-stories__controls {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 32px;
+	padding: 0 1rem;
+}
+
+.onepoint-client-stories__arrow {
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	border: none;
+	border-radius: 50%;
+	background: rgba(8, 180, 255, 0.12);
+	color: var(--op-blue);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background 0.2s;
+}
+
+.onepoint-client-stories__arrow:hover {
+	background: rgba(8, 180, 255, 0.2);
+}
+
+.onepoint-client-stories__arrow::before {
+	content: '';
+	width: 0;
+	height: 0;
+	border-style: solid;
+}
+
+.onepoint-client-stories__arrow--prev::before {
+	border-width: 6px 10px 6px 0;
+	border-color: transparent currentColor transparent transparent;
+	margin-right: 1px;
+}
+
+.onepoint-client-stories__arrow--next::before {
+	border-width: 6px 0 6px 10px;
+	border-color: transparent transparent transparent currentColor;
+	margin-left: 1px;
+}
+
+.onepoint-client-stories__play-pause {
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	border: none;
+	border-radius: 50%;
+	background: rgba(8, 180, 255, 0.12);
+	color: var(--op-blue);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background 0.2s;
+	position: relative;
+}
+
+.onepoint-client-stories__play-pause:hover {
+	background: rgba(8, 180, 255, 0.2);
+}
+
+.onepoint-client-stories__play-icon,
+.onepoint-client-stories__pause-icon {
+	position: absolute;
+	display: block;
+}
+
+.onepoint-client-stories__play-icon {
+	width: 0;
+	height: 0;
+	border-left: 10px solid currentColor;
+	border-top: 6px solid transparent;
+	border-bottom: 6px solid transparent;
+	margin-left: 2px;
+	box-sizing: border-box;
+}
+
+.onepoint-client-stories__pause-icon {
+	width: 3px;
+	height: 14px;
+	border-left: 3px solid currentColor;
+	border-right: 3px solid currentColor;
+}
+
+.onepoint-client-stories__play-pause.is-playing .onepoint-client-stories__play-icon {
+	display: none;
+}
+
+.onepoint-client-stories__play-pause.is-playing .onepoint-client-stories__pause-icon {
+	display: block;
+}
+
+.onepoint-client-stories__play-pause.is-paused .onepoint-client-stories__play-icon {
+	display: block;
+}
+
+.onepoint-client-stories__play-pause.is-paused .onepoint-client-stories__pause-icon {
+	display: none;
+}
+
+/* Editor preview */
+.onepoint-client-stories-editor .onepoint-client-stories {
+	max-width: 100%;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+	.onepoint-client-stories__tab {
+		max-width: 200px;
+		padding: 18px 16px;
+	}
+
+	.onepoint-client-stories__slide-inner {
+		grid-template-columns: 1fr;
+		padding: 2rem 1.5rem;
+		gap: 2rem;
+	}
+
+	.onepoint-client-stories__slide-right {
+		order: -1;
+	}
+
+	.onepoint-client-stories__metrics {
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		min-height: auto;
+		gap: 1.5rem;
+	}
+
+	.onepoint-client-stories__metric {
+		flex: 1 1 140px;
+		min-width: 0;
+	}
+}
+
+@media (max-width: 768px) {
+	.onepoint-client-stories {
+		padding: 1.5rem 1rem;
+		gap: 1.5rem;
+	}
+
+	.onepoint-client-stories__header {
+		min-height: 44px;
+	}
+
+	/* Mobile: tab + content pairs stacked – content directly below active tab */
+	.onepoint-client-stories__list {
+		display: flex;
+		flex-direction: column;
+		border-radius: 16px;
+	}
+
+	.onepoint-client-stories__item {
+		display: flex;
+		flex-direction: column;
+		border-bottom: 1px solid var(--op-text-9);
+	}
+
+	.onepoint-client-stories__item:last-child {
+		border-bottom: none;
+	}
+
+	.onepoint-client-stories__tab {
+		max-width: 100%;
+		flex: 1 1 100%;
+		border-right: none;
+		border-bottom: none;
+		padding: 16px 1rem;
+		grid-row: auto;
+	}
+
+	.onepoint-client-stories__item:last-child .onepoint-client-stories__tab {
+		border-right: none;
+	}
+
+	.onepoint-client-stories__content {
+		grid-row: auto;
+		grid-column: auto;
+		border-top: none;
+		min-height: 320px;
+	}
+
+	.onepoint-client-stories__slide {
+		min-height: 340px;
+	}
+
+	.onepoint-client-stories__slide-inner {
+		padding: 1.5rem 1rem;
+		gap: 1.5rem;
+	}
+
+	.onepoint-client-stories__slide-headline {
+		font-size: 1.5rem;
+	}
+
+	.onepoint-client-stories__slide-desc {
+		font-size: 1rem;
+	}
+
+	.onepoint-client-stories__slide-cta {
+		padding: 16px 28px;
+		font-size: 16px;
+	}
+
+	.onepoint-client-stories__metrics {
+		flex-direction: column;
+		padding: 20px 1rem;
+	}
+
+	.onepoint-client-stories__metric-value {
+		font-size: 2rem;
+	}
+
+	.onepoint-client-stories__metric-label {
+		font-size: 1rem;
+	}
+
+	.onepoint-client-stories__controls {
+		gap: 1.5rem;
+	}
+
+	.onepoint-client-stories__arrow,
+	.onepoint-client-stories__play-pause {
+		width: 28px;
+		height: 28px;
+	}
+
+	.onepoint-client-stories__arrow--prev::before {
+		border-width: 5px 8px 5px 0;
+	}
+
+	.onepoint-client-stories__arrow--next::before {
+		border-width: 5px 0 5px 8px;
+	}
+
+	.onepoint-client-stories__play-icon {
+		border-left-width: 8px;
+		border-top-width: 5px;
+		border-bottom-width: 5px;
+	}
+
+	.onepoint-client-stories__pause-icon {
+		width: 2px;
+		height: 12px;
+		border-left-width: 2px;
+		border-right-width: 2px;
+	}
+}

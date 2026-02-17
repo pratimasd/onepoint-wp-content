@@ -1,0 +1,346 @@
+/* Technology Carousel – Figma: node-id=3496-4062 */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700&display=swap');
+
+/* Figma design tokens */
+:where(.onepoint-tech-carousel-section) {
+	--op-tech-white: #FAFFFE;
+	--op-tech-black: #07000D;
+	--op-tech-black-soft: #020005;
+	--op-tech-text-2: #38333D;
+}
+
+/* Section: Figma Frame 3311 – centered column, padding 80px 48px, gap 48px, max-width 1280px */
+.onepoint-tech-carousel-section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 48px;
+	padding: 80px 48px;
+	max-width: 1280px;
+	margin: 0 auto;
+	background: var(--op-tech-white);
+	box-sizing: border-box;
+	overflow: visible;
+}
+
+/* Header: Figma Frame 2975/3208 – column, centered, gap 32px */
+.onepoint-tech-carousel-header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 32px;
+	text-align: center;
+	width: 100%;
+	max-width: 700px;
+	overflow: visible;
+}
+
+/* Badge label – Figma: gradient blur behind, Manrope 16px */
+.onepoint-tech-carousel-label-wrap {
+	position: relative;
+	min-height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.5rem 0;
+	overflow: visible;
+}
+
+.onepoint-tech-carousel-label-wrap::before {
+	content: '';
+	position: absolute;
+	inset: -20px;
+	z-index: 0;
+	background: linear-gradient(90deg, rgba(230, 247, 255, 1) 15%, rgba(232, 204, 255, 0.9) 50%, rgba(230, 247, 255, 1) 85%);
+	filter: blur(40px);
+	pointer-events: none;
+}
+
+.onepoint-tech-carousel-label {
+	position: relative;
+	z-index: 1;
+	font-family: 'Manrope', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 2.25;
+	color: var(--op-tech-black-soft);
+	text-align: center;
+}
+
+/* Subtitle – Figma: Manrope 20px, #38333D */
+.onepoint-tech-carousel-subtitle {
+	font-family: 'Manrope', sans-serif;
+	font-size: clamp(16px, 2.5vw, 20px);
+	font-weight: 400;
+	line-height: 1.52;
+	color: var(--op-tech-text-2);
+	text-align: center;
+	margin: 0;
+}
+
+/* Carousel container – Figma Frame 2977: 892×417, border-radius 16px, gradient fill & stroke */
+.onepoint-tech-carousel-carousel-container {
+	width: 100%;
+	max-width: 892px;
+	min-height: 280px;
+	background: linear-gradient(135deg, rgba(250, 255, 254, 1) 67%, rgba(230, 247, 255, 0.55) 100%);
+	border: 1px solid rgba(205, 240, 255, 0.8);
+	border-radius: 16px;
+	box-sizing: border-box;
+	position: relative;
+	overflow: hidden;
+}
+
+/* Main carousel wrap – cards grid */
+.onepoint-tech-carousel-wrap {
+	overflow: hidden;
+	width: 100%;
+	margin: 0;
+	padding: 1.5rem 1.25rem;
+	border: none;
+	background: transparent;
+	box-sizing: border-box;
+}
+
+/* When > 9 items: fixed viewport height for animation */
+.onepoint-tech-carousel-wrap.onepoint-tech-carousel-has-animation {
+	height: 380px;
+	min-height: 380px;
+	max-height: 380px;
+	display: flex;
+	align-items: stretch;
+}
+
+.onepoint-tech-carousel-empty {
+	padding: 1.5rem;
+	text-align: center;
+	color: var(--op-tech-text-2);
+	margin: 0;
+	font-family: 'Manrope', sans-serif;
+}
+
+/* Vertical track */
+.onepoint-tech-carousel-track {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	will-change: transform;
+	width: 100%;
+}
+
+/* Row: 3 cards */
+.onepoint-tech-carousel-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 18px;
+	align-items: end;
+	width: 100%;
+}
+
+/* Cell base */
+.onepoint-tech-carousel-cell {
+	min-height: 100px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.onepoint-tech-carousel-cell--empty {
+	visibility: hidden;
+	min-height: 100px;
+}
+
+/* Card – white, rounded, subtle border */
+.onepoint-tech-carousel-card {
+	width: 100%;
+	min-height: 100px;
+	background: #ffffff;
+	border: 1px solid rgba(205, 240, 255, 0.6);
+	border-radius: 16px;
+	padding: 18px 16px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	box-sizing: border-box;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* Center column elevated */
+.onepoint-tech-carousel-card--elevated {
+	transform: translateY(-12px);
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* Logo image */
+.onepoint-tech-carousel-card__img {
+	display: block;
+	width: auto;
+	height: 44px;
+	max-width: 140px;
+	object-fit: contain;
+	object-position: center;
+}
+
+.onepoint-tech-carousel-card__label {
+	font-size: 0.8rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+	color: var(--op-tech-black);
+	text-align: center;
+	line-height: 1.2;
+}
+
+/* ===== Editor only ===== */
+.onepoint-tech-carousel-editor-wrap {
+	border: 1px dashed #ccc;
+	border-radius: 8px;
+	padding: 12px;
+}
+
+.onepoint-tech-carousel-editor-wrap .onepoint-tech-carousel-section {
+	background: #f9f9f9;
+	padding: 2rem 1.5rem;
+}
+
+.onepoint-tech-carousel-editor-preview {
+	overflow: hidden;
+	border-radius: 12px;
+	background: transparent;
+}
+
+.onepoint-tech-carousel-editor-inner .onepoint-tech-carousel-track {
+	animation: none;
+}
+
+.onepoint-tech-carousel-editor-empty {
+	text-align: center;
+	padding: 2rem;
+	background: rgba(7, 0, 13, 0.06);
+	border-radius: 12px;
+	color: var(--op-tech-text-2);
+	font-family: 'Manrope', sans-serif;
+}
+
+.onepoint-tech-carousel-editor-hint {
+	font-size: 0.9em;
+	opacity: 0.9;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+	.onepoint-tech-carousel-section {
+		padding: 60px 32px;
+		gap: 40px;
+	}
+
+	.onepoint-tech-carousel-subtitle {
+		font-size: clamp(15px, 2vw, 18px);
+	}
+
+	.onepoint-tech-carousel-wrap.onepoint-tech-carousel-has-animation {
+		height: 340px;
+		min-height: 340px;
+		max-height: 340px;
+	}
+
+	.onepoint-tech-carousel-card {
+		min-height: 90px;
+		padding: 14px 12px;
+	}
+
+	.onepoint-tech-carousel-cell,
+	.onepoint-tech-carousel-cell--empty {
+		min-height: 90px;
+	}
+}
+
+@media (max-width: 768px) {
+	.onepoint-tech-carousel-section {
+		padding: 48px 24px;
+		gap: 32px;
+	}
+
+	.onepoint-tech-carousel-header {
+		gap: 24px;
+	}
+
+	.onepoint-tech-carousel-subtitle {
+		font-size: 16px;
+	}
+
+	.onepoint-tech-carousel-row {
+		grid-template-columns: 1fr;
+		gap: 12px;
+	}
+
+	.onepoint-tech-carousel-card--elevated {
+		transform: none;
+	}
+
+	.onepoint-tech-carousel-wrap {
+		padding: 1rem;
+	}
+
+	.onepoint-tech-carousel-wrap.onepoint-tech-carousel-has-animation {
+		height: 320px;
+		min-height: 320px;
+		max-height: 320px;
+	}
+
+	.onepoint-tech-carousel-card {
+		min-height: 80px;
+		padding: 14px 16px;
+		border-radius: 14px;
+	}
+
+	.onepoint-tech-carousel-cell,
+	.onepoint-tech-carousel-cell--empty {
+		min-height: 80px;
+	}
+
+	.onepoint-tech-carousel-card__img {
+		height: 36px;
+		max-width: 120px;
+	}
+}
+
+@media (max-width: 480px) {
+	.onepoint-tech-carousel-section {
+		padding: 40px 16px;
+		gap: 28px;
+	}
+
+	.onepoint-tech-carousel-label {
+		font-size: 14px;
+	}
+
+	.onepoint-tech-carousel-subtitle {
+		font-size: 15px;
+	}
+
+	.onepoint-tech-carousel-wrap.onepoint-tech-carousel-has-animation {
+		height: 280px;
+		min-height: 280px;
+		max-height: 280px;
+	}
+
+	.onepoint-tech-carousel-card {
+		min-height: 72px;
+		padding: 12px 14px;
+	}
+
+	.onepoint-tech-carousel-cell,
+	.onepoint-tech-carousel-cell--empty {
+		min-height: 72px;
+	}
+
+	.onepoint-tech-carousel-card__img {
+		height: 32px;
+		max-width: 100px;
+	}
+}
