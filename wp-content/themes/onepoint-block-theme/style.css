@@ -307,6 +307,7 @@ body {
 	}
 }
 
+
 /* ===== Footer (Figma: desktop 2054-527, mobile 1653-246) ===== */
 .site-footer {
 	background: #07000D;
@@ -834,5 +835,6 @@ blockquote.wp-block-quote.is-style-large p,
 		height: 3.25rem;
 		min-width: 3.25rem;
 		min-height: 3.25rem;
+
 	}
 }

@@ -120,9 +120,9 @@ export default function Edit({ attributes, setAttributes }) {
 					<RangeControl
 						label={__('Scroll speed (seconds per loop)', 'onepoint-custom-blocks')}
 						value={speed}
-						min={15}
-						max={60}
-						step={5}
+						min={5}
+						max={45}
+						step={1}
 						onChange={(val) => setAttributes({ speed: val })}
 					/>
 					<div style={{ marginTop: '12px' }}>
