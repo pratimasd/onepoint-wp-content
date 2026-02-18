@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "onepoint/footer",
+  "version": "0.1.0",
+  "title": "OP-Footer",
+  "category": "theme",
+  "icon": "layout",
+  "description": "Site footer with link columns, policies and copyright.",
+  "keywords": ["footer", "onepoint"],
+  "textdomain": "onepoint-custom-blocks",
+  "attributes": {
+    "col1Title": { "type": "string", "default": "What we do" },
+    "col2Title": { "type": "string", "default": "Resources" },
+    "col3Title": { "type": "string", "default": "About us" },
+    "col4Title": { "type": "string", "default": "More info" },
+    "btnCollapse": { "type": "string", "default": "Hide full footer" },
+    "btnExpand": { "type": "string", "default": "Show full footer" },
+    "policiesLabel": { "type": "string", "default": "Policies" },
+    "termsLabel": { "type": "string", "default": "Terms and conditions" },
+    "termsUrl": { "type": "string", "default": "" },
+    "cookiesLabel": { "type": "string", "default": "Cookies" },
+    "cookiesUrl": { "type": "string", "default": "" },
+    "copyright": { "type": "string", "default": "Onepoint Consulting Ltd" },
+    "footerLogoUrl": { "type": "string", "default": "" },
+    "footerLogoAlt": { "type": "string", "default": "" },
+    "privacyLabel": { "type": "string", "default": "" },
+    "privacyUrl": { "type": "string", "default": "" }
+  },
+  "supports": {
+    "html": false,
+    "align": ["full"],
+    "spacing": { "margin": true }
+  },
+  "editorScript": "file:./build/index.js",
+  "editorStyle": "file:./build/style-index.css",
+  "style": "file:./build/style-index.css"
+}

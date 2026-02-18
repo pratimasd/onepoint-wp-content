@@ -1,0 +1,355 @@
+/* Contact Form – frontend & editor – matches Figma design */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Oxanium:wght@400;500;600;700&display=swap');
+
+/* Block wrapper – prevents overflow in narrow containers */
+.wp-block-onepoint-contact-form {
+	width: 100%;
+	max-width: 100%;
+	overflow-x: hidden;
+}
+
+.onepoint-contact-form {
+	width: 100%;
+	max-width: 100%;
+	min-width: 0; /* Allows flex/grid children to shrink */
+	padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 3vw, 1.5rem);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: clamp(32px, 5vw, 48px);
+	box-sizing: border-box;
+	overflow: visible;
+}
+
+/* Header – centered, heading + description */
+.onepoint-contact-form__header {
+	text-align: center;
+	max-width: min(698px, 100%);
+	width: 100%;
+	margin: 0;
+	padding: 0 clamp(0.5rem, 2vw, 1rem);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: clamp(20px, 3vw, 32px);
+	overflow: visible;
+}
+
+/* Section label – gradient blur behind (same as other section titles) */
+.onepoint-contact-form__label-wrap {
+	position: relative;
+	min-height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.5rem 0;
+	overflow: visible;
+}
+
+.onepoint-contact-form__label-wrap::before {
+	content: '';
+	position: absolute;
+	inset: -20px;
+	z-index: 0;
+	background: linear-gradient(90deg, rgba(230, 247, 255, 1) 15%, rgba(232, 204, 255, 0.9) 50%, rgba(230, 247, 255, 1) 85%);
+	filter: blur(40px);
+	pointer-events: none;
+}
+
+.onepoint-contact-form__label {
+	position: relative;
+	z-index: 1;
+	font-family: Manrope, sans-serif;
+	font-size: clamp(14px, 4vw, 16px);
+	font-weight: 400;
+	line-height: 2.25;
+	color: #020005;
+	margin: 0;
+	text-align: center;
+}
+
+/* Description – Manrope 20px, #38333D */
+.onepoint-contact-form__description {
+	font-family: Manrope, sans-serif;
+	font-size: clamp(1rem, 2.5vw, 20px);
+	line-height: 1.52;
+	color: #38333d;
+	margin: 0;
+	text-align: center;
+}
+
+/* Form card – gradient fill, gradient border, 16px radius */
+.onepoint-contact-form__card {
+	background: linear-gradient(135deg, rgba(250, 255, 254, 1) 81%, rgba(243, 229, 255, 0.6) 100%);
+	border: 1px solid rgba(232, 204, 255, 0.9);
+	border-radius: clamp(12px, 2vw, 16px);
+	padding: clamp(24px, 5vw, 48px);
+	max-width: min(782px, 100%);
+	width: 100%;
+	margin: 0;
+	position: relative;
+	box-sizing: border-box;
+}
+
+/* Inner form layout – gap between field groups */
+.onepoint-contact-form__fields {
+	display: flex;
+	flex-direction: column;
+	gap: clamp(24px, 4vw, 48px);
+	width: 100%;
+}
+
+/* Row: Name+Email, Company+LinkedIn – stack on narrow screens */
+.onepoint-contact-form__row {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: clamp(12px, 2vw, 16px);
+}
+
+/* Single field – label + input, 4px gap */
+.onepoint-contact-form__field {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.onepoint-contact-form__field--message {
+	gap: 6px;
+}
+
+/* Labels – Manrope 16px, #05000A 80% */
+.onepoint-contact-form__field label {
+	font-family: Manrope, sans-serif;
+	font-size: clamp(0.875rem, 2vw, 16px);
+	font-weight: 400;
+	line-height: 1.9;
+	color: rgba(5, 0, 10, 0.8);
+}
+
+/* Inputs – min 44px touch target, border #B4B2B6, radius 16px */
+.onepoint-contact-form input[type="text"],
+.onepoint-contact-form input[type="email"],
+.onepoint-contact-form input[type="url"],
+.onepoint-contact-form textarea {
+	width: 100%;
+	height: clamp(44px, 8vw, 56px);
+	min-height: 44px;
+	padding: 0 clamp(0.75rem, 2vw, 1rem);
+	font-family: Manrope, sans-serif;
+	font-size: 16px; /* 16px prevents iOS zoom on focus */
+	line-height: 1.5;
+	border: 1px solid #b4b2b6;
+	border-radius: clamp(12px, 2vw, 16px);
+	background: #fff;
+	transition: border-color 0.2s;
+	box-sizing: border-box;
+}
+
+.onepoint-contact-form textarea {
+	height: clamp(80px, 15vw, 96px);
+	min-height: 80px;
+	padding: clamp(0.75rem, 2vw, 1rem);
+	resize: vertical;
+}
+
+.onepoint-contact-form input:focus,
+.onepoint-contact-form textarea:focus {
+	outline: none;
+	border-color: rgba(143, 0, 255, 0.6);
+}
+
+.onepoint-contact-form__field.onepoint-contact-form__field--message {
+	margin-bottom: 0;
+}
+
+/* Button – white fill, gradient border */
+.onepoint-contact-form__button-wrap {
+	margin-top: 0;
+}
+
+.onepoint-contact-form__button,
+.onepoint-contact-form input[type="submit"] {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: clamp(16px, 3vw, 20px) clamp(24px, 5vw, 40px);
+	min-height: 44px; /* Touch target */
+	font-family: Manrope, sans-serif;
+	font-size: clamp(1rem, 2vw, 18px);
+	font-weight: 400;
+	line-height: 1.22;
+	color: #07000d;
+	background: linear-gradient(#fafffe, #fafffe) padding-box,
+		linear-gradient(135deg, rgb(143, 0, 255) 0%, rgb(8, 180, 255) 100%) border-box;
+	border: 2px solid transparent;
+	border-radius: clamp(12px, 2vw, 16px);
+	cursor: pointer;
+	transition: opacity 0.2s;
+	box-sizing: border-box;
+}
+
+.onepoint-contact-form__button:hover,
+.onepoint-contact-form input[type="submit"]:hover {
+	opacity: 0.9;
+}
+
+/* Editor preview placeholders – match input heights */
+.onepoint-contact-form__input-placeholder,
+.onepoint-contact-form__textarea-placeholder {
+	background: #fff;
+	border: 1px solid #b4b2b6;
+	border-radius: clamp(12px, 2vw, 16px);
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.onepoint-contact-form__input-placeholder {
+	height: clamp(44px, 8vw, 56px);
+	min-height: 44px;
+}
+
+.onepoint-contact-form__textarea-placeholder {
+	height: clamp(80px, 15vw, 96px);
+	min-height: 80px;
+}
+
+.onepoint-contact-form__button--preview {
+	pointer-events: none;
+}
+
+/* Success / error messages */
+.onepoint-contact-form__message {
+	padding: 1rem;
+	border-radius: 16px;
+	margin-bottom: 1rem;
+	font-size: 0.9375rem;
+	font-family: Manrope, sans-serif;
+}
+
+.onepoint-contact-form__message--success {
+	background: rgba(34, 197, 94, 0.1);
+	color: #15803d;
+	border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.onepoint-contact-form__message--error {
+	background: rgba(239, 68, 68, 0.1);
+	color: #b91c1c;
+	border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* ===== Responsive – all breakpoints ===== */
+
+/* Large tablets & small desktops: keep 2-col rows */
+@media (max-width: 1024px) {
+	.onepoint-contact-form__card {
+		max-width: 100%;
+	}
+}
+
+/* Tablets: stack form rows, reduce gaps */
+@media (max-width: 768px) {
+	.onepoint-contact-form__row {
+		grid-template-columns: 1fr;
+	}
+
+	.onepoint-contact-form__fields {
+		gap: 32px;
+	}
+
+}
+
+/* Large phones */
+@media (max-width: 640px) {
+	.onepoint-contact-form {
+		padding: 1.25rem 1rem;
+		gap: 28px;
+	}
+
+	.onepoint-contact-form__card {
+		padding: 20px;
+	}
+
+	.onepoint-contact-form__fields {
+		gap: 24px;
+	}
+
+	.onepoint-contact-form__description {
+		font-size: 1rem;
+	}
+
+	/* Full-width button for easier tap on mobile */
+	.onepoint-contact-form__button-wrap {
+		width: 100%;
+	}
+
+	.onepoint-contact-form__button,
+	.onepoint-contact-form input[type="submit"] {
+		width: 100%;
+	}
+}
+
+/* Small phones (e.g. iPhone SE, small Android) */
+@media (max-width: 480px) {
+	.onepoint-contact-form {
+		padding: 1rem 0.75rem;
+		gap: 24px;
+	}
+
+	.onepoint-contact-form__header {
+		padding: 0 0.25rem;
+		gap: 16px;
+	}
+
+	.onepoint-contact-form__card {
+		padding: 16px;
+		border-radius: 12px;
+	}
+
+	.onepoint-contact-form__fields {
+		gap: 20px;
+	}
+
+	.onepoint-contact-form__row {
+		gap: 12px;
+	}
+
+	.onepoint-contact-form input[type="text"],
+	.onepoint-contact-form input[type="email"],
+	.onepoint-contact-form input[type="url"] {
+		min-height: 44px;
+	}
+
+	.onepoint-contact-form textarea {
+		min-height: 72px;
+	}
+
+	.onepoint-contact-form__button,
+	.onepoint-contact-form input[type="submit"] {
+		padding: 14px 20px;
+		font-size: 1rem;
+	}
+}
+
+/* Extra small (very narrow) */
+@media (max-width: 360px) {
+	.onepoint-contact-form {
+		padding: 0.75rem 0.5rem;
+	}
+
+	.onepoint-contact-form__card {
+		padding: 12px;
+	}
+
+}
+
+/* Wide/Full alignment */
+.wp-block-onepoint-contact-form.alignwide .onepoint-contact-form__card {
+	max-width: min(900px, 100%);
+}
+
+.wp-block-onepoint-contact-form.alignfull .onepoint-contact-form__card {
+	max-width: min(782px, 100%);
+	margin-left: auto;
+	margin-right: auto;
+}

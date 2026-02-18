@@ -4,20 +4,89 @@ Author: Onepoint
 Version: 0.1.0
 */
 
+@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
+
 /* ===== Base ===== */
 body {
 	margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, sans-serif;
+	font-family: 'Manrope', sans-serif;
 	font-size: 16px;
-	line-height: 1.5;
-	color: #1a1a1a;
-	background: #fff;
+	line-height: 1.3;
+	color: #07000D;
+	background: #fafffe;
 }
+
+/* Global h2 – section headings (Latest Updates, Contact, Purpose, Technology, etc.) */
+h2 {
+	font-family: 'Oxanium', sans-serif;
+	font-size: clamp(1.5rem, 5vw, 60px);
+	font-weight: 400;
+	line-height: 1.067;
+	color: #07000d;
+	margin: 0;
+	
+	max-width: 700px;
+}
+
+@media (max-width: 1024px) {
+	h2 {
+		font-size: clamp(24px, 4.5vw, 48px);
+	}
+}
+
+@media (max-width: 768px) {
+	h2 {
+		font-size: clamp(22px, 6vw, 36px);
+	}
+}
+
+@media (max-width: 480px) {
+	h2 {
+		font-size: 20px;
+	}
+}
+
+/* Simple baseline for other headings – customize later as needed */
+h1, h3, h4, h5, h6 {
+	margin: 0 0 0.5em;
+	font-weight: 600;
+	line-height: 1.3;
+	color: inherit;
+}
+
+h1 { font-size: 1.75rem; }
+h3 { font-size: 1.35rem; }
+h4 { font-size: 1.15rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.9rem; }
 
 .site-content {
 	max-width: 1200px;
 	margin: 0 auto;
 	padding: 2rem 1.5rem;
+	overflow-x: visible; /* allow .alignfull children to break out */
+}
+
+/* Full-width blocks: break out of .site-content and span the viewport */
+.site-content > .alignfull {
+	width: 100vw;
+	max-width: 100vw;
+	margin-left: calc(50% - 50vw - 1.5rem);
+	margin-right: calc(50% - 50vw - 1.5rem);
+	box-sizing: border-box;
+}
+/* Prevent horizontal scroll when scrollbar is present */
+body {
+	overflow-x: hidden;
+}
+
+/* Wide blocks: slightly wider than content, still centered (optional) */
+.site-content > .alignwide {
+	max-width: 1280px;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /* ===== Header ===== */
@@ -60,12 +129,18 @@ body {
 	color: #00b89e;
 }
 
-.site-logo img {
+.site-logo img,
+.site-logo .site-logo-img {
 	display: block;
 	height: 40px;
 	width: auto;
 	max-width: 200px;
 	object-fit: contain;
+}
+
+.site-logo .site-logo-img {
+	height: 48px;
+	max-width: 220px;
 }
 
 .header-nav {
@@ -229,5 +304,535 @@ body {
 
 	.header-inner {
 		flex-wrap: wrap;
+	}
+}
+
+/* ===== Footer (Figma: desktop 2054-527, mobile 1653-246) ===== */
+.site-footer {
+	background: #07000D;
+	color: #E5FAF8;
+	font-family: Manrope, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	clear: both;
+	min-height: 1px;
+	margin-top: 0;
+}
+
+.footer-inner {
+	max-width: 1280px;
+	margin: 0 auto;
+}
+
+/* Desktop: link columns */
+.footer-top {
+	padding: 64px 48px;
+}
+
+.footer-top[hidden] {
+	display: none;
+}
+
+.footer-cols {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 32px 101px;
+}
+
+.footer-col {
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+}
+
+.footer-col__title {
+	font-size: 20px;
+	line-height: 1.2;
+	font-weight: 400;
+	color: #8F00FF;
+	margin: 0 0 0 0;
+}
+
+.footer-col__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.footer-col__list a {
+	color: #E5FAF8;
+	text-decoration: none;
+	font-size: 18px;
+	line-height: 2;
+	transition: color 0.2s;
+}
+
+.footer-col__list a:hover {
+	color: #FAFFFE;
+}
+
+.footer-col__list a.is-active {
+	color: #FAFFFE;
+	border-bottom: 1px solid #08B4FF;
+	padding-bottom: 4px;
+	font-size: 20px;
+	line-height: 1.8;
+}
+
+/* Second column onwards: slightly larger link text (P2 in Figma) */
+.footer-col:nth-child(2) .footer-col__list a,
+.footer-col:nth-child(3) .footer-col__list a,
+.footer-col:nth-child(4) .footer-col__list a {
+	font-size: 26px;
+	line-height: 1.38;
+}
+
+.footer-col:nth-child(2) .footer-col__list a.is-active,
+.footer-col:nth-child(3) .footer-col__list a.is-active,
+.footer-col:nth-child(4) .footer-col__list a.is-active {
+	font-size: 20px;
+}
+
+/* Bottom section */
+.footer-bottom {
+	display: flex;
+	flex-direction: column;
+	gap: 80px;
+	max-width: 1184px;
+	margin: 0 auto;
+	padding: 60px 48px 80px;
+}
+
+.footer-toggle-full {
+	align-self: flex-start;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	padding: 20px 40px;
+	font-family: Manrope, sans-serif;
+	font-size: 18px;
+	line-height: 1.22;
+	color: #FAFFFE;
+	background: rgba(7, 0, 13, 0.55);
+	border: 2px solid transparent;
+	border-radius: 16px;
+	cursor: pointer;
+	transition: opacity 0.2s;
+	box-shadow: 0 0 0 2px transparent;
+	background-clip: padding-box;
+	position: relative;
+}
+
+.footer-toggle-full::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: 16px;
+	padding: 2px;
+	background: linear-gradient(135deg, #8F00FF 0%, #08B4FF 100%);
+	-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+	mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+	-webkit-mask-composite: xor;
+	mask-composite: exclude;
+	pointer-events: none;
+}
+
+.footer-toggle-full:hover {
+	opacity: 0.9;
+}
+
+.footer-brand-row {
+	display: flex;
+	align-items: center;
+}
+
+.footer-brand {
+	flex-shrink: 0;
+}
+
+.footer-logo {
+	display: block;
+	text-decoration: none;
+	color: #FAFFFE;
+}
+
+.footer-logo img {
+	display: block;
+	height: 42px;
+	width: auto;
+	max-width: 180px;
+	object-fit: contain;
+}
+
+.footer-logo-text {
+	font-weight: 700;
+	font-size: 1.5rem;
+	letter-spacing: 0.02em;
+}
+
+.footer-legal {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.footer-policies {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 16px;
+	font-size: 18px;
+	line-height: 1.33;
+}
+
+.footer-policies-label,
+.footer-policies a {
+	color: #FAFFFE;
+}
+
+.footer-policies a {
+	text-decoration: none;
+}
+
+.footer-policies a:hover {
+	text-decoration: underline;
+}
+
+.footer-copyright {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.33;
+	color: #FAFFFE;
+}
+
+/* Mobile accordion: hidden on desktop */
+.footer-mobile-accordion {
+	display: none;
+}
+
+/* Mobile footer */
+@media (max-width: 767px) {
+	.footer-top {
+		display: none !important;
+	}
+
+	.footer-mobile-accordion {
+		display: block;
+		padding: 0 16px 32px;
+	}
+
+	.footer-mobile-accordion[aria-hidden="true"] {
+		display: none;
+	}
+
+	.footer-accordion-item {
+		border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+	}
+
+	.footer-accordion-trigger {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 16px 0;
+		background: none;
+		border: none;
+		color: #E5FAF8;
+		font-family: Manrope, sans-serif;
+		font-size: 18px;
+		line-height: 1.2;
+		cursor: pointer;
+		text-align: left;
+	}
+
+	.footer-accordion-trigger-icon {
+		display: block;
+		width: 12px;
+		height: 12px;
+		border-right: 2px solid currentColor;
+		border-bottom: 2px solid currentColor;
+		transform: rotate(45deg);
+		transition: transform 0.2s;
+	}
+
+	.footer-accordion-trigger[aria-expanded="true"] .footer-accordion-trigger-icon {
+		transform: rotate(-135deg);
+	}
+
+	.footer-accordion-panel[hidden] {
+		display: none;
+	}
+
+	.footer-accordion-panel {
+		padding-bottom: 16px;
+	}
+
+	.footer-accordion-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.footer-accordion-list a {
+		color: #07000D;
+		text-decoration: none;
+		font-size: 18px;
+	}
+
+	.footer-accordion-list a.is-active {
+		color: #8F00FF;
+	}
+
+	.footer-bottom {
+		padding: 24px 16px 40px;
+		gap: 32px;
+		background: #FAFFFE;
+		border-radius: 0;
+	}
+
+	.footer-toggle-full {
+		display: none;
+	}
+
+	.footer-policies,
+	.footer-copyright {
+		color: #07000D;
+	}
+
+	.footer-policies-label,
+	.footer-policies a {
+		color: #07000D;
+	}
+
+	.footer-logo,
+	.footer-logo-text {
+		color: #07000D;
+	}
+}
+
+/* Section-heading style only for H2 (block editor uses .wp-block-heading on all levels) */
+h2.wp-block-heading {
+	width: 700px;
+	max-width: 100%;
+	min-height: 128px;
+	font-family: 'Oxanium', sans-serif;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 60px;
+	line-height: 64px;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	color: #07000D;
+	flex: none;
+	order: 1;
+	flex-grow: 0;
+}
+
+/* ===== Quote Block (core blockquote) – Vision-style design ===== */
+/* Overrides core theme.css; matches reference: dark bg, neon green quotes, horizontal attribution */
+blockquote.wp-block-quote,
+.wp-block-quote {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0;
+	background-color: #1A0027;
+	color: #FFFFFF;
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	font-weight: 400;
+	border: none;
+	margin: 0 0 1.75em;
+	padding: 3rem 3rem 3rem 6.5rem;
+	min-height: 280px;
+	box-sizing: border-box;
+	overflow-wrap: break-word;
+}
+
+/* Override core left border on all variants */
+blockquote.wp-block-quote.is-style-plain,
+.wp-block-quote.is-style-plain,
+blockquote.wp-block-quote:where(.has-text-align-right),
+.wp-block-quote:where(.has-text-align-right),
+blockquote.wp-block-quote:where(.has-text-align-center),
+.wp-block-quote:where(.has-text-align-center) {
+	border: none;
+	border-left: none;
+	border-right: none;
+	padding-left: 6.5rem;
+	padding-right: 3rem;
+}
+
+/* Stylized quotation marks graphic – neon green outline, side-by-side */
+blockquote.wp-block-quote::before,
+.wp-block-quote::before {
+	content: '';
+	position: absolute;
+	left: 1rem;
+	top: 2rem;
+	width: 5rem;
+	height: 5.5rem;
+	background-image: url('assets/quote-marks.svg');
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: left top;
+	pointer-events: none;
+}
+
+/* Vision heading – centered at top, gradient purple */
+blockquote.wp-block-quote::after,
+.wp-block-quote::after {
+	content: 'Vision';
+	position: absolute;
+	top: 1rem;
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 4rem;
+	font-weight: 700;
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	color: rgba(180, 150, 220, 0.9);
+	background: linear-gradient(135deg, #c896e8 0%, #7850a8 50%, #503080 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	pointer-events: none;
+	line-height: 1;
+	letter-spacing: -0.02em;
+}
+
+/* Quote text content */
+blockquote.wp-block-quote p,
+.wp-block-quote p {
+	color: #FFFFFF;
+	font-size: 1.3125rem;
+	line-height: 1.65;
+	font-weight: 400;
+	margin: 0 0 1.5em;
+	max-width: 75%;
+}
+
+blockquote.wp-block-quote p:last-of-type,
+.wp-block-quote p:last-of-type {
+	margin-bottom: 0;
+}
+
+/* Citation – horizontal layout: image left, name/title right */
+blockquote.wp-block-quote cite,
+blockquote.wp-block-quote footer,
+.wp-block-quote cite,
+.wp-block-quote footer {
+	color: #FFFFFF;
+	font-size: 1rem;
+	font-weight: 500;
+	font-style: normal;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: 1rem 1.25rem;
+	margin-top: 1.5rem;
+}
+
+/* Author image – circular with neon green background/border, overlaps quote area */
+.wp-block-quote cite img,
+blockquote.wp-block-quote cite img {
+	width: 4rem;
+	height: 4rem;
+	min-width: 4rem;
+	min-height: 4rem;
+	border-radius: 50%;
+	object-fit: cover;
+	background-color: #52FF00;
+	border: 3px solid #52FF00;
+	box-sizing: border-box;
+}
+
+/* Company name / logo – bold uppercase */
+.wp-block-quote cite strong,
+blockquote.wp-block-quote cite strong,
+.wp-block-quote cite .wp-block-quote__citation,
+blockquote.wp-block-quote cite .wp-block-quote__citation {
+	font-size: 0.9375rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+/* Large/plain style variants – keep Vision design */
+blockquote.wp-block-quote.is-large p,
+blockquote.wp-block-quote.is-style-large p,
+.wp-block-quote.is-large p,
+.wp-block-quote.is-style-large p {
+	font-size: 1.3125rem;
+	font-style: normal;
+	line-height: 1.65;
+}
+
+/* Tablet */
+@media (max-width: 1023px) {
+	blockquote.wp-block-quote,
+	.wp-block-quote {
+		padding: 2.5rem 2rem 2rem 5rem;
+		min-height: auto;
+	}
+
+	blockquote.wp-block-quote::before,
+	.wp-block-quote::before {
+		width: 4rem;
+		height: 4.5rem;
+		top: 2rem;
+	}
+
+	blockquote.wp-block-quote::after,
+	.wp-block-quote::after {
+		font-size: 3rem;
+	}
+
+	blockquote.wp-block-quote p,
+	.wp-block-quote p {
+		font-size: 1.1875rem;
+		max-width: 100%;
+	}
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+	blockquote.wp-block-quote,
+	.wp-block-quote {
+		padding: 1.75rem 1.25rem 2.5rem 4rem;
+	}
+
+	blockquote.wp-block-quote::before,
+	.wp-block-quote::before {
+		width: 3rem;
+		height: 3.25rem;
+		left: 0.75rem;
+		top: 1.5rem;
+	}
+
+	blockquote.wp-block-quote::after,
+	.wp-block-quote::after {
+		font-size: 2.25rem;
+	}
+
+	blockquote.wp-block-quote p,
+	.wp-block-quote p {
+		font-size: 1rem;
+		line-height: 1.55;
+		max-width: 100%;
+	}
+
+	.wp-block-quote cite img,
+	blockquote.wp-block-quote cite img {
+		width: 3.25rem;
+		height: 3.25rem;
+		min-width: 3.25rem;
+		min-height: 3.25rem;
 	}
 }

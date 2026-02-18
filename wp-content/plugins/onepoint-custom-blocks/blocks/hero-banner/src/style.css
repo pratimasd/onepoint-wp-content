@@ -39,21 +39,45 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	padding: 3rem 3.5rem 3rem 4rem;
+	padding: 3rem 3.5rem;
+}
+
+/* Greeting wrap – gradient blur behind "Hello, we are Onepoint" only (not the h2) */
+.onepoint-hero-banner__greeting-wrap {
+	position: relative;
+	display: inline-flex;
+	padding: 0.5rem 0;
+	margin: 0 0 1rem 0;
+	overflow: visible;
+}
+
+.onepoint-hero-banner__greeting-wrap::before {
+	content: '';
+	position: absolute;
+	top: -8px;
+	right: -24px;
+	bottom: -8px;
+	left: -24px;
+	z-index: 0;
+	background: linear-gradient(90deg, rgba(230, 247, 255, 1) 15%, rgba(232, 204, 255, 0.9) 50%, rgba(230, 247, 255, 1) 85%);
+	filter: blur(40px);
+	pointer-events: none;
 }
 
 .onepoint-hero-banner__greeting {
-	color: #333;
+	position: relative;
+	z-index: 1;
+	color: #38333D;
 	font-size: 1rem;
 	font-weight: 400;
-	margin: 0 0 1rem 0;
+	margin: 0;
 	line-height: 1.4;
 }
 
 .onepoint-hero-banner__headline {
-	color: #1a1a1a;
+	color: #020005;
 	font-size: clamp(2rem, 4vw, 3.25rem);
-	font-weight: 700;
+	font-weight: 400;
 	line-height: 1.15;
 	margin: 0 0 1.5rem 0;
 	letter-spacing: -0.02em;
@@ -91,7 +115,7 @@
 
 .onepoint-hero-banner__right {
 	position: relative;
-	border-radius: 0 24px 24px 0;
+	border-radius: 24px;
 	overflow: hidden;
 	background: #1a1a1a;
 }
@@ -125,35 +149,49 @@
 	padding: 2rem;
 }
 
+/* Right side: play button – dark rounded square, subtle gradient, light blue outline + triangle */
 .onepoint-hero-banner__play {
 	position: absolute;
-	left: 50%;
+	left: 55%;
 	top: 50%;
 	transform: translate(-50%, -50%);
-	width: 72px;
-	height: 72px;
-	border-radius: 50%;
-	background: rgba(0, 0, 0, 0.5);
+	width: 96px;
+	height: 96px;
+	border-radius: 20px;
+	background: linear-gradient(145deg, rgba(40, 40, 40, 0.9) 0%, rgba(20, 20, 20, 0.95) 100%);
+	border: 3px solid #08B4FF;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	text-decoration: none;
-	transition: background 0.2s;
+	transition: background 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
 	z-index: 2;
+	box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(8, 180, 255, 0.2);
 }
 
 .onepoint-hero-banner__play:hover {
-	background: rgba(0, 0, 0, 0.7);
+	background: linear-gradient(145deg, rgba(50, 50, 50, 0.95) 0%, rgba(30, 30, 30, 0.98) 100%);
+	border-color: #00d4ff;
+	transform: translate(-50%, -50%) scale(1.05);
+	box-shadow: 0 6px 28px rgba(0, 0, 0, 0.5), 0 0 20px rgba(8, 180, 255, 0.3);
 }
 
 .onepoint-hero-banner__play-icon {
 	width: 0;
 	height: 0;
-	border-left: 20px solid #00bfff;
-	border-top: 12px solid transparent;
-	border-bottom: 12px solid transparent;
+	border-left: 26px solid #08B4FF;
+	border-top: 15px solid transparent;
+	border-bottom: 15px solid transparent;
 	margin-left: 6px;
 	box-sizing: border-box;
+}
+
+.onepoint-hero-banner__play:hover .onepoint-hero-banner__play-icon {
+	border-left-color: #00d4ff;
+}
+
+.onepoint-hero-banner__play:hover .onepoint-hero-banner__play-icon {
+	border-left-color: #00d4ff;
 }
 
 /* Carousel controls: indicator + play/pause */
@@ -161,7 +199,7 @@
 	display: flex;
 	align-items: center;
 	gap: 1rem;
-	padding: 1rem 3.5rem 1.5rem 4rem;
+	padding: 1rem 3.5rem 1.5rem;
 	background: #FAFFFE;
 }
 

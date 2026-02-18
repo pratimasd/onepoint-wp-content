@@ -1,6 +1,72 @@
 /* ===== Technology Carousel – frontend & editor ===== */
 /* Reference: soft white container, significantly rounded corners, subtle light blue/cyan glow; 3×3 grid; center column elevated; square-ish white cards, heavily rounded (pill-shaped), thin light grey border */
 
+/* Outer wrapper when section header is present */
+.onepoint-tech-carousel {
+	width: 100%;
+}
+
+.onepoint-tech-carousel__header + .onepoint-tech-carousel-wrap {
+	margin-top: 1.5rem;
+}
+
+/* Section header – light background, centered (same as Purpose cards) */
+.onepoint-tech-carousel__header {
+	background: #FAFFFE;
+	text-align: center;
+	padding: clamp(2.5rem, 5vw, 4rem) clamp(1rem, 4vw, 2rem);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: clamp(1rem, 2vw, 1.5rem);
+	margin-bottom: 0;
+}
+
+.onepoint-tech-carousel__label-wrap {
+	position: relative;
+	min-height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.5rem 0;
+	overflow: visible;
+}
+
+/* Glowing oval behind label – light purple to white */
+.onepoint-tech-carousel__label-wrap::before {
+	content: '';
+	position: absolute;
+	inset: -20px;
+	z-index: 0;
+	background: linear-gradient(90deg, rgba(180, 160, 220, 0.5) 0%, rgba(220, 210, 255, 0.7) 50%, rgba(180, 160, 220, 0.5) 100%);
+	filter: blur(32px);
+	pointer-events: none;
+}
+
+.onepoint-tech-carousel__label {
+	position: relative;
+	z-index: 1;
+	font-size: clamp(14px, 2vw, 16px);
+	font-weight: 400;
+	line-height: 1.5;
+	color: #020005;
+	margin: 0;
+}
+
+/* Theme's h2 applies (theme style.css); only margin and max-width here */
+.onepoint-tech-carousel__header h2 {
+	margin: 0;
+	max-width: 720px;
+}
+
+.onepoint-tech-carousel__description {
+	font-size: clamp(0.9375rem, 2vw, 1.125rem);
+	line-height: 1.5;
+	color: #38333D;
+	margin: 0;
+	max-width: 560px;
+}
+
 /* Main wrapper: carousel container – soft white, significantly rounded, subtle light blue/cyan glow */
 .onepoint-tech-carousel-wrap {
 	overflow: hidden;

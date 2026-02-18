@@ -3,7 +3,7 @@
   "apiVersion": 3,
   "name": "onepoint/image-carousel",
   "version": "0.1.0",
-  "title": "Image Carousel",
+  "title": "OP-Image Carousel",
   "category": "media",
   "icon": "images-alt2",
   "description": "Infinite scrolling image carousel. Choose direction (left/right), speed, and add any number of images.",

@@ -14,8 +14,13 @@ function onepoint_theme_setup() {
 		'flex-height' => true,
 		'flex-width'  => true,
 	));
+	add_theme_support('align-wide'); /* show Wide / Full width in block toolbar */
 	register_nav_menus(array(
-		'primary' => __('Primary Menu', 'onepoint-block-theme'),
+		'primary'      => __('Primary Menu', 'onepoint-block-theme'),
+		'footer-col-1' => __('Footer Column 1', 'onepoint-block-theme'),
+		'footer-col-2' => __('Footer Column 2', 'onepoint-block-theme'),
+		'footer-col-3' => __('Footer Column 3', 'onepoint-block-theme'),
+		'footer-col-4' => __('Footer Column 4', 'onepoint-block-theme'),
 	));
 }
 add_action('after_setup_theme', 'onepoint_theme_setup');

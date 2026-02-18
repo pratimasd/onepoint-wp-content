@@ -12,6 +12,7 @@ import {
 	RangeControl,
 	Button,
 	TextControl,
+	TextareaControl,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
@@ -28,7 +29,14 @@ function chunkRows(items, cols = 3) {
 }
 
 export default function Edit({ attributes, setAttributes }) {
-	const { items = [], minLogos = 6, speed = 14 } = attributes;
+	const {
+		items = [],
+		minLogos = 6,
+		speed = 14,
+		sectionLabel = 'Technology platforms & tools',
+		sectionHeading = 'Trusted partnerships and proven tech expertise',
+		sectionDescription = 'We apply the right tech solutions quickly through strong partnerships and expertise.',
+	} = attributes;
 	const blockProps = useBlockProps({
 		className: 'onepoint-tech-carousel-editor-wrap',
 	});
@@ -73,6 +81,30 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<>
 			<InspectorControls>
+				<PanelBody title={__('Section header', 'onepoint-custom-blocks')} initialOpen={true}>
+					<p style={{ marginBottom: 10, fontSize: 12, color: '#757575' }}>
+						{__('Optional header above the carousel (dark background, centered). Same style as Purpose beyond profit.', 'onepoint-custom-blocks')}
+					</p>
+					<TextControl
+						label={__('Section label', 'onepoint-custom-blocks')}
+						value={sectionLabel || ''}
+						onChange={(val) => setAttributes({ sectionLabel: val || '' })}
+						placeholder="Technology platforms & tools"
+					/>
+					<TextControl
+						label={__('Section heading', 'onepoint-custom-blocks')}
+						value={sectionHeading || ''}
+						onChange={(val) => setAttributes({ sectionHeading: val || '' })}
+						placeholder="Trusted partnerships and proven tech expertise"
+					/>
+					<TextareaControl
+						label={__('Section description', 'onepoint-custom-blocks')}
+						value={sectionDescription || ''}
+						onChange={(val) => setAttributes({ sectionDescription: val || '' })}
+						rows={3}
+						placeholder="We apply the right tech solutions quickly..."
+					/>
+				</PanelBody>
 				<PanelBody title={__('Technology Carousel settings', 'onepoint-custom-blocks')} initialOpen={true}>
 					<p style={{ marginBottom: '12px', color: '#1e1e1e' }}>
 						{__('Nine cards (3×3) are shown at once. When you add more than 9 items, the carousel will automatically slide upward.', 'onepoint-custom-blocks')}
@@ -148,6 +180,17 @@ export default function Edit({ attributes, setAttributes }) {
 			</InspectorControls>
 			<div {...blockProps}>
 				<div className="onepoint-tech-carousel-editor-preview">
+					{(sectionLabel || sectionHeading || sectionDescription) && (
+						<div className="onepoint-tech-carousel__header">
+							{sectionLabel && (
+								<div className="onepoint-tech-carousel__label-wrap">
+									<p className="onepoint-tech-carousel__label">{sectionLabel}</p>
+								</div>
+							)}
+							{sectionHeading && <h2>{sectionHeading}</h2>}
+							{sectionDescription && <p className="onepoint-tech-carousel__description">{sectionDescription}</p>}
+						</div>
+					)}
 					{items.length === 0 ? (
 						<div className="onepoint-tech-carousel-editor-empty">
 							{__('Technology Carousel', 'onepoint-custom-blocks')}

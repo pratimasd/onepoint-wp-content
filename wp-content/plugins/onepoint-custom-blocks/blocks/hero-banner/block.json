@@ -3,7 +3,7 @@
   "apiVersion": 3,
   "name": "onepoint/hero-banner",
   "version": "0.2.0",
-  "title": "Hero Banner",
+  "title": "OP-Hero Banner",
   "category": "design",
   "icon": "cover-image",
   "description": "Carousel of hero slides: left text + right image/video. Add multiple items; indicator and play/pause below.",

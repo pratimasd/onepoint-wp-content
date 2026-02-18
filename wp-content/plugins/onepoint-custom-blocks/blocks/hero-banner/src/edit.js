@@ -179,7 +179,11 @@ export default function Edit({ attributes, setAttributes }) {
 								aria-hidden={i !== currentIndex}
 							>
 								<div className="onepoint-hero-banner__left">
-									{s.greeting && <p className="onepoint-hero-banner__greeting">{s.greeting}</p>}
+									{s.greeting && (
+										<div className="onepoint-hero-banner__greeting-wrap">
+											<p className="onepoint-hero-banner__greeting">{s.greeting}</p>
+										</div>
+									)}
 									{s.headline && <h2 className="onepoint-hero-banner__headline">{s.headline}</h2>}
 									{s.description && <p className="onepoint-hero-banner__description">{s.description}</p>}
 									{s.buttonText && (

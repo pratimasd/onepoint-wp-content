@@ -1,0 +1,21 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "onepoint/site-header",
+  "version": "0.1.0",
+  "title": "OP-Site Header",
+  "category": "theme",
+  "icon": "header",
+  "description": "Onepoint site header: logo, primary menu, optional icon. Use in theme template or as reusable block.",
+  "keywords": ["header", "nav", "menu", "onepoint"],
+  "textdomain": "onepoint-custom-blocks",
+  "attributes": {
+    "iconUrl": { "type": "string", "default": "" },
+    "iconAlt": { "type": "string", "default": "" }
+  },
+  "supports": { "html": false, "align": ["full"], "spacing": { "margin": true } },
+  "editorScript": "file:./build/index.js",
+  "editorStyle": "file:./build/style-index.css",
+  "style": "file:./build/style-index.css",
+  "viewScript": "file:./build/view.js"
+}

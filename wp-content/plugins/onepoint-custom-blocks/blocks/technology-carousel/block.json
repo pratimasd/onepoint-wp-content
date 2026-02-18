@@ -1,45 +1,38 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "onepoint/technology-carousel",
-  "version": "0.1.0",
-  "title": "Technology Carousel",
-  "category": "media",
-  "icon": "admin-generic",
-  "description": "Vertical technology logo carousel. Displays 9 cards (3×3) at once; with more than 9 items the carousel automatically slides upward. Center column cards are elevated.",
-  "keywords": ["carousel", "technology", "logos", "partners"],
-  "textdomain": "onepoint-custom-blocks",
-  "attributes": {
-    "items": {
-      "type": "array",
-      "default": [],
-      "items": {
-        "type": "object",
-        "properties": {
-          "id": { "type": "number" },
-          "logoId": { "type": "number" },
-          "logoUrl": { "type": "string", "default": "" },
-          "logoAlt": { "type": "string", "default": "" },
-          "label": { "type": "string", "default": "" }
-        }
-      }
-    },
-    "minLogos": {
-      "type": "number",
-      "default": 6
-    },
-    "speed": {
-      "type": "number",
-      "default": 14
-    }
-  },
-  "supports": {
-    "html": false,
-    "align": ["wide", "full"],
-    "spacing": { "margin": true, "padding": true }
-  },
-  "editorScript": "file:./build/index.js",
-  "editorStyle": "file:./build/style-index.css",
-  "style": "file:./build/style-index.css",
-  "viewScript": "file:./build/view.js"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "onepoint/technology-carousel",
+	"version": "0.1.0",
+	"title": "OP-Technology Carousel",
+	"category": "media",
+	"icon": "admin-generic",
+	"description": "Vertical technology logo carousel. Displays 9 cards (3×3) at once; with more than 9 items the carousel automatically slides upward. Center column cards are elevated.",
+	"keywords": ["carousel", "technology", "logos", "partners"],
+	"textdomain": "onepoint-custom-blocks",
+	"attributes": {
+		"items": {
+			"type": "array",
+			"default": [],
+			"items": {
+				"type": "object",
+				"properties": {
+					"id": {"type": "number"},
+					"logoId": {"type": "number"},
+					"logoUrl": {"type": "string", "default": ""},
+					"logoAlt": {"type": "string", "default": ""},
+					"label": {"type": "string", "default": ""}
+				}
+			}
+		},
+		"minLogos": {"type": "number", "default": 6},
+		"speed": {"type": "number", "default": 14},
+		"sectionLabel": {"type": "string", "default": "Technology platforms & tools"},
+		"sectionHeading": {"type": "string", "default": "Trusted partnerships and proven tech expertise"},
+		"sectionDescription": {"type": "string", "default": "We apply the right tech solutions quickly through strong partnerships and expertise."}
+	},
+	"supports": {"html": false, "align": ["wide", "full"], "spacing": {"margin": true, "padding": true}},
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/style-index.css",
+	"style": "file:./build/style-index.css",
+	"viewScript": "file:./build/view.js"
 }

@@ -1,0 +1,39 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "onepoint/client-stories-carousel",
+	"version": "0.2.0",
+	"title": "OP-Client Stories Carousel",
+	"category": "design",
+	"icon": "format-gallery",
+	"description": "Carousel with tabs: auto-sliding, blue progress indicator, play/pause, and clickable tabs. Editable via block settings.",
+	"keywords": ["client", "stories", "carousel", "tabs", "onepoint"],
+	"textdomain": "onepoint-custom-blocks",
+	"attributes": {
+		"heading": {
+			"type": "string",
+			"default": "Client stories"
+		},
+		"items": {
+			"type": "array",
+			"default": []
+		},
+		"autoplay": {
+			"type": "boolean",
+			"default": true
+		},
+		"interval": {
+			"type": "number",
+			"default": 6
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"spacing": { "margin": true }
+	},
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/style-index.css",
+	"style": "file:./build/style-index.css",
+	"viewScript": "file:./build/view.js"
+}

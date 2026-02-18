@@ -3,7 +3,7 @@
   "apiVersion": 3,
   "name": "onepoint/initiative-card",
   "version": "0.1.0",
-  "title": "Initiative Card",
+  "title": "OP-Initiative Card",
   "category": "design",
   "icon": "grid-view",
   "description": "Onepoint initiative card: featured (with heading + description) or simple (icon + two lines). Use multiple in a row.",
