@@ -16,19 +16,11 @@ function onepoint_theme_setup() {
 	));
 	add_theme_support('align-wide'); /* show Wide / Full width in block toolbar */
 	register_nav_menus(array(
-<<<<<<< HEAD
-		'primary'      => __('Primary Menu', 'onepoint-block-theme'),
-		'footer-col-1' => __('Footer Column 1', 'onepoint-block-theme'),
-		'footer-col-2' => __('Footer Column 2', 'onepoint-block-theme'),
-		'footer-col-3' => __('Footer Column 3', 'onepoint-block-theme'),
-		'footer-col-4' => __('Footer Column 4', 'onepoint-block-theme'),
-=======
 		'primary' => __('Primary Menu', 'onepoint-block-theme'),
 		'footer_what_we_do' => __('Footer: What we do', 'onepoint-block-theme'),
 		'footer_resources'  => __('Footer: Resources', 'onepoint-block-theme'),
 		'footer_about'      => __('Footer: About us', 'onepoint-block-theme'),
 		'footer_more_info'  => __('Footer: More info', 'onepoint-block-theme'),
->>>>>>> 6144bd12d1c6612064f8d78635778521282760d7
 	));
 }
 add_action('after_setup_theme', 'onepoint_theme_setup');

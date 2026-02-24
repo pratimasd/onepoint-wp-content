@@ -3,9 +3,19 @@
  * Plugin Name: Onepoint Custom Blocks
  * Description: Gutenberg blocks POC (Plugin vs Theme approach)
  * Version: 0.5.0
+ * License: GPL v2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
 
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Role and capability: content editing
+ *
+ * Who can modify content: WordPress restricts the block editor to users with edit_posts / edit_pages.
+ * Editors and above have these capabilities by default. No plugin check required for editor access.
+ * Block render protection pattern: see commented example in onepoint_render_technology_carousel().
+ */
 
 /**
  * Register all blocks in blocks/ folder. Dynamic blocks get render_callback from mapping.
@@ -13,36 +23,17 @@ defined('ABSPATH') || exit;
 function onepoint_register_blocks() {
 	$blocks_dir = plugin_dir_path(__FILE__) . 'blocks';
 	$render_callbacks = array(
-<<<<<<< HEAD
-		'onepoint/image-carousel'        => 'onepoint_render_image_carousel',
-		'onepoint/initiative-card'       => 'onepoint_render_initiative_card',
-		'onepoint/hero-banner'           => 'onepoint_render_hero_banner',
-		'onepoint/technology-carousel'   => 'onepoint_render_technology_carousel',
-		'onepoint/site-header'           => 'onepoint_render_site_header',
-		'onepoint/header'                => 'onepoint_render_header',
-		'onepoint/contact-form'          => 'onepoint_render_contact_form',
-		'onepoint/client-stories-carousel' => 'onepoint_render_client_stories_carousel',
-		'onepoint/purpose-cards-carousel' => 'onepoint_render_purpose_cards_carousel',
-		'onepoint/footer'                 => 'onepoint_render_footer',
-=======
-<<<<<<< HEAD
-		'onepoint/image-carousel'   => 'onepoint_render_image_carousel',
-		'onepoint/initiative-card'  => 'onepoint_render_initiative_card',
-		'onepoint/hero-banner'      => 'onepoint_render_hero_banner',
-		'onepoint/header'           => 'onepoint_render_header',
-		'onepoint/footer'           => 'onepoint_render_footer',
-=======
 		'onepoint/vision-block'               => 'onepoint_render_vision_block',
 		'onepoint/image-carousel'             => 'onepoint_render_image_carousel',
-		'onepoint/initiative-card'            => 'onepoint_render_initiative_card',
+		'onepoint/initiative-card'             => 'onepoint_render_initiative_card',
 		'onepoint/hero-banner'                => 'onepoint_render_hero_banner',
 		'onepoint/technology-carousel'        => 'onepoint_render_technology_carousel',
-		'onepoint/client-stories-carousel'    => 'onepoint_render_client_stories_carousel',
-		'onepoint/purpose-cards-carousel'     => 'onepoint_render_purpose_cards_carousel',
-		'onepoint/latest-updates-carousel'    => 'onepoint_render_latest_updates_carousel',
+		'onepoint/site-header'                => 'onepoint_render_site_header',
+		'onepoint/header'                     => 'onepoint_render_header',
 		'onepoint/contact-form'               => 'onepoint_render_contact_form',
->>>>>>> f4c6dffb3f041f265141415961791fc8bb2bf198
->>>>>>> 6144bd12d1c6612064f8d78635778521282760d7
+		'onepoint/client-stories-carousel'     => 'onepoint_render_client_stories_carousel',
+		'onepoint/purpose-cards-carousel'      => 'onepoint_render_purpose_cards_carousel',
+		'onepoint/footer'                      => 'onepoint_render_footer',
 	);
 
 	if (!is_dir($blocks_dir)) {
@@ -199,10 +190,18 @@ function onepoint_technology_carousel_render_row( $row ) {
 /**
  * Render the Technology Carousel block (frontend).
  *
+ * Block render protection pattern (optional): restrict visibility by capability.
+ * Uncomment the block below to hide this block from users who cannot edit others' posts (Editors and above).
+ *
  * @param array $attributes Block attributes.
  * @return string HTML output.
  */
 function onepoint_render_technology_carousel( $attributes ) {
+	// Optional: restrict front-end visibility to users who can edit others' posts (Editors and above).
+	// if ( ! current_user_can( 'edit_others_posts' ) ) {
+	// 	return '';
+	// }
+
 	$items    = isset( $attributes['items'] ) && is_array( $attributes['items'] ) ? $attributes['items'] : array();
 	$speed    = isset( $attributes['speed'] ) ? absint( $attributes['speed'] ) : 8;
 	$speed    = $speed < 5 ? 5 : ( $speed > 45 ? 45 : $speed );
@@ -219,7 +218,6 @@ function onepoint_render_technology_carousel( $attributes ) {
 	$content .= '</div>';
 	$content .= '<div class="onepoint-tech-carousel-carousel-container">';
 
-<<<<<<< HEAD
 	$section_label      = isset( $attributes['sectionLabel'] ) ? wp_kses_post( $attributes['sectionLabel'] ) : '';
 	$section_heading    = isset( $attributes['sectionHeading'] ) ? wp_kses_post( $attributes['sectionHeading'] ) : '';
 	$section_description = isset( $attributes['sectionDescription'] ) ? wp_kses_post( $attributes['sectionDescription'] ) : '';
@@ -260,29 +258,6 @@ function onepoint_render_technology_carousel( $attributes ) {
 		$html .= $track_html . $track_html;
 	} else {
 		$html .= $track_html;
-=======
-	if ( $count === 0 ) {
-		$content .= '<div class="onepoint-tech-carousel-wrap" data-speed="' . esc_attr( $speed ) . '" data-count="0"><p class="onepoint-tech-carousel-empty">' . esc_html__( 'Add at least 6 technology logos in the block settings.', 'onepoint-custom-blocks' ) . '</p></div>';
-	} else {
-		$rows   = onepoint_technology_carousel_chunk_rows( $items, 3 );
-		$unique = 'onepoint-tech-carousel-' . uniqid();
-		$content .= '<div class="onepoint-tech-carousel-wrap" id="' . esc_attr( $unique ) . '" data-speed="' . esc_attr( $speed ) . '" data-count="' . esc_attr( $count ) . '">';
-		$content .= '<div class="onepoint-tech-carousel-track" aria-hidden="true">';
-
-		$track_html = '';
-		foreach ( $rows as $row ) {
-			$track_html .= onepoint_technology_carousel_render_row( $row );
-		}
-
-		// For seamless loop when > 9 items, duplicate the track content (viewport shows 9 cards; carousel slides upward).
-		if ( $count > 9 ) {
-			$content .= $track_html . $track_html;
-		} else {
-			$content .= $track_html;
-		}
-
-		$content .= '</div></div>';
->>>>>>> 6144bd12d1c6612064f8d78635778521282760d7
 	}
 
 	$html .= '</div></div></div>';
@@ -408,10 +383,11 @@ function onepoint_render_hero_banner($attributes) {
 		$html .= '<div class="onepoint-hero-carousel__indicators" role="tablist" aria-label="' . esc_attr__('Slide indicators', 'onepoint-custom-blocks') . '">';
 		foreach ($items as $i => $_) {
 			$dot_active = $i === 0 ? ' is-active' : '';
+			/* translators: %d: slide number (1-based). */
 			$html .= '<button type="button" role="tab" aria-selected="' . ( $i === 0 ? 'true' : 'false' ) . '" aria-label="' . esc_attr( sprintf( __( 'Slide %d', 'onepoint-custom-blocks' ), $i + 1 ) ) . '" class="onepoint-hero-carousel__dot' . $dot_active . '"></button>';
 		}
 		$html .= '</div>';
-		$html .= '<button type="button" class="onepoint-hero-carousel__play-pause" aria-label="' . esc_attr__( $autoplay ? 'Pause carousel' : 'Play carousel', 'onepoint-custom-blocks' ) . '">';
+		$html .= '<button type="button" class="onepoint-hero-carousel__play-pause" aria-label="' . esc_attr( $autoplay ? __( 'Pause carousel', 'onepoint-custom-blocks' ) : __( 'Play carousel', 'onepoint-custom-blocks' ) ) . '">';
 		$html .= '<span class="onepoint-hero-carousel__play-pause-icon' . ( $autoplay ? '' : ' is-paused' ) . '" aria-hidden="true"></span>';
 		$html .= '</button>';
 		$html .= '</div>';
@@ -422,7 +398,7 @@ function onepoint_render_hero_banner($attributes) {
 }
 
 /**
-<<<<<<< HEAD
+
  * Render the Site Header block (frontend). Logo/menu from WordPress; optional icon from block.
  *
  * @param array $attributes Block attributes.
@@ -557,7 +533,8 @@ function onepoint_render_header( $attributes ) {
  * Verifies nonce, sanitizes/validates input, sends email, redirects with success/error.
  */
 function onepoint_handle_contact_form() {
-	if ( ! isset( $_POST['onepoint_contact_nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['onepoint_contact_nonce'] ), 'onepoint_contact_submit' ) ) {
+	$nonce = isset( $_POST['onepoint_contact_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['onepoint_contact_nonce'] ) ) : '';
+	if ( ! $nonce || ! wp_verify_nonce( $nonce, 'onepoint_contact_submit' ) ) {
 		$redirect = wp_get_referer() ?: home_url( '/' );
 		wp_safe_redirect( add_query_arg( 'onepoint_contact', 'error', $redirect ) );
 		exit;
@@ -584,12 +561,16 @@ function onepoint_handle_contact_form() {
 		__( '[%s] Contact form submission', 'onepoint-custom-blocks' ),
 		get_bloginfo( 'name' )
 	);
+	/* translators: %s: sender name. */
 	$body = sprintf( __( 'Name: %s', 'onepoint-custom-blocks' ), $name ) . "\n";
+	/* translators: %s: sender email address. */
 	$body .= sprintf( __( 'Email: %s', 'onepoint-custom-blocks' ), $email ) . "\n";
 	if ( $company ) {
+		/* translators: %s: company name. */
 		$body .= sprintf( __( 'Company: %s', 'onepoint-custom-blocks' ), $company ) . "\n";
 	}
 	if ( $linkedin ) {
+		/* translators: %s: LinkedIn profile URL. */
 		$body .= sprintf( __( 'LinkedIn: %s', 'onepoint-custom-blocks' ), $linkedin ) . "\n";
 	}
 	$body .= "\n" . __( 'Message:', 'onepoint-custom-blocks' ) . "\n" . $message . "\n";
@@ -661,8 +642,7 @@ function onepoint_render_contact_form( $attributes ) {
 
 /**
  * Render the Client Stories Carousel block (frontend).
-=======
-<<<<<<< HEAD
+
  * Fallback link lists for footer columns (plugin fallback when theme helpers not used).
  */
 function onepoint_plugin_footer_fallback($location) {
@@ -724,7 +704,10 @@ function onepoint_plugin_footer_column($location, $title, $highlight = '') {
 		$html .= '</ul>';
 	}
 	$html .= '</div>';
-=======
+	return $html;
+}
+
+/**
  * Sanitize a single client story item from block attributes.
  *
  * @param array $item Raw item from block attributes.
@@ -771,61 +754,6 @@ function onepoint_sanitize_client_story_item( $item ) {
  */
 function onepoint_render_client_stories_carousel( $attributes ) {
 
-	$items    = isset( $attributes['items'] ) && is_array( $attributes['items'] ) ? $attributes['items'] : array();
-	$heading  = isset( $attributes['heading'] ) ? wp_kses_post( $attributes['heading'] ) : 'Client stories';
-	$autoplay = isset( $attributes['autoplay'] ) ? (bool) $attributes['autoplay'] : true;
-	$interval = isset( $attributes['interval'] ) ? max( 3, min( 15, (int) $attributes['interval'] ) ) : 6;
-
-	$default_item = array(
-		'tabTitle'         => 'Robotic Process Automation',
-		'tabSubtitle'      => 'SolarCo',
-		'headline'         => 'Integrating massive volumes of solar farm',
-		'description'      => '',
-		'buttonText'       => 'Discover the outcomes',
-		'buttonUrl'        => '',
-		'tags'             => array( 'Low-code development' ),
-		'metrics'          => array( array( 'value' => '~2000', 'label' => 'person hours saved monthly' ) ),
-		'backgroundImageUrl' => '',
-	);
-
-	if ( empty( $items ) ) {
-		$items = array( $default_item );
-	}
-
-	$html  = '<div class="onepoint-client-stories" data-autoplay="' . ( $autoplay ? '1' : '0' ) . '" data-interval="' . esc_attr( $interval ) . '">';
-	$html .= '<div class="onepoint-client-stories__header">';
-	$html .= '<h3 class="onepoint-client-stories__heading">' . $heading . '</h3>';
-	$html .= '</div>';
-	$html .= '<div class="onepoint-client-stories__card">';
-	$html .= '<div class="onepoint-client-stories__list" role="tablist">';
-
-	foreach ( $items as $i => $s ) {
-		$s         = wp_parse_args( $s, $default_item );
-		$tab_title = isset( $s['tabTitle'] ) ? esc_html( $s['tabTitle'] ) : '';
-		$tab_sub   = isset( $s['tabSubtitle'] ) ? esc_html( $s['tabSubtitle'] ) : '';
-		$headline  = isset( $s['headline'] ) ? wp_kses_post( $s['headline'] ) : '';
-		$desc      = isset( $s['description'] ) ? wp_kses_post( $s['description'] ) : '';
-		$btn_text  = isset( $s['buttonText'] ) ? wp_kses_post( $s['buttonText'] ) : '';
-		$btn_url   = isset( $s['buttonUrl'] ) ? esc_url( $s['buttonUrl'] ) : '';
-		$tags      = isset( $s['tags'] ) && is_array( $s['tags'] ) ? $s['tags'] : array();
-		$metrics   = isset( $s['metrics'] ) && is_array( $s['metrics'] ) ? $s['metrics'] : array();
-		$bg_url    = isset( $s['backgroundImageUrl'] ) ? esc_url( $s['backgroundImageUrl'] ) : '';
-		$active    = $i === 0 ? ' is-active' : '';
-
-		$html .= '<div class="onepoint-client-stories__item">';
-		$html .= '<button type="button" role="tab" aria-selected="' . ( $i === 0 ? 'true' : 'false' ) . '" class="onepoint-client-stories__tab' . $active . '">';
-		$html .= '<span class="onepoint-client-stories__tab-title">' . $tab_title . '</span>';
-		$html .= '<span class="onepoint-client-stories__tab-subtitle">' . $tab_sub . '</span>';
-		$html .= '<span class="onepoint-client-stories__tab-progress"><span class="onepoint-client-stories__tab-progress-fill"></span></span>';
-		$html .= '</button>';
-		$html .= '<div class="onepoint-client-stories__content">';
-		$html .= '<div class="onepoint-client-stories__slide' . $active . '" aria-hidden="' . ( $i !== 0 ? 'true' : 'false' ) . '" role="tabpanel">';
-		if ( $bg_url ) {
-			$html .= '<div class="onepoint-client-stories__slide-bg" style="background-image:url(' . $bg_url . ')"></div>';
-		} else {
-			$html .= '<div class="onepoint-client-stories__slide-bg"></div>';
-		}
-=======
 	$heading   = isset( $attributes['heading'] ) ? sanitize_text_field( $attributes['heading'] ) : 'Client stories';
 	$raw_items = isset( $attributes['items'] ) && is_array( $attributes['items'] ) ? $attributes['items'] : array();
 	$autoplay  = isset( $attributes['autoplay'] ) ? (bool) $attributes['autoplay'] : true;
@@ -839,7 +767,7 @@ function onepoint_render_client_stories_carousel( $attributes ) {
 		'buttonText'        => 'Discover the outcomes',
 		'buttonUrl'         => '',
 		'tags'              => array( 'Low-code development' ),
-		'metrics'            => array(
+		'metrics'           => array(
 			array( 'value' => '~2000', 'label' => 'person hours saved monthly' ),
 		),
 		'backgroundImageUrl' => '',
@@ -888,15 +816,14 @@ function onepoint_render_client_stories_carousel( $attributes ) {
 
 		$html .= '<div class="onepoint-client-stories__slide' . ( $is_active ? ' is-active' : '' ) . '" aria-hidden="' . ( $is_active ? 'false' : 'true' ) . '" role="tabpanel">';
 		$html .= '<div class="onepoint-client-stories__slide-bg" style="' . ( $bg_url ? 'background-image:url(' . $bg_url . ');' : '' ) . '"></div>';
->>>>>>> 6144bd12d1c6612064f8d78635778521282760d7
+
 		$html .= '<div class="onepoint-client-stories__slide-inner">';
 		$html .= '<div class="onepoint-client-stories__slide-left">';
 		if ( $headline ) {
 			$html .= '<h2 class="onepoint-client-stories__slide-headline">' . $headline . '</h2>';
 		}
-<<<<<<< HEAD
-		if ( $desc ) {
-			$html .= '<p class="onepoint-client-stories__slide-desc">' . $desc . '</p>';
+		if ( $description ) {
+			$html .= '<p class="onepoint-client-stories__slide-desc">' . $description . '</p>';
 		}
 		if ( $btn_text ) {
 			$href = $btn_url ? $btn_url : '#';
@@ -904,27 +831,14 @@ function onepoint_render_client_stories_carousel( $attributes ) {
 		}
 		if ( ! empty( $tags ) ) {
 			$html .= '<div class="onepoint-client-stories__slide-tags">';
-			foreach ( array_filter( $tags ) as $tag ) {
-				$html .= '<span class="onepoint-client-stories__tag"><span class="onepoint-client-stories__tag-chevron" aria-hidden="true">&#8249;</span>' . esc_html( $tag ) . '<span class="onepoint-client-stories__tag-chevron" aria-hidden="true">&#8250;</span></span>';
-=======
-		if ( $description ) {
-			$html .= '<p class="onepoint-client-stories__slide-desc">' . $description . '</p>';
-		}
-		if ( $btn_text ) {
-			$html .= '<a href="' . ( $btn_url ? $btn_url : '#' ) . '" class="onepoint-client-stories__slide-cta">' . $btn_text . '</a>';
-		}
-		if ( ! empty( $tags ) ) {
-			$html .= '<div class="onepoint-client-stories__slide-tags">';
 			foreach ( $tags as $tag ) {
-				$html .= '<span class="onepoint-client-stories__tag"><span class="onepoint-client-stories__tag-chevron" aria-hidden="true">‹</span>' . esc_html( $tag ) . '<span class="onepoint-client-stories__tag-chevron" aria-hidden="true">›</span></span>';
->>>>>>> 6144bd12d1c6612064f8d78635778521282760d7
+				$html .= '<span class="onepoint-client-stories__tag"><span class="onepoint-client-stories__tag-chevron" aria-hidden="true">&#8249;</span>' . esc_html( $tag ) . '<span class="onepoint-client-stories__tag-chevron" aria-hidden="true">&#8250;</span></span>';
 			}
 			$html .= '</div>';
 		}
 		$html .= '</div>';
 		$html .= '<div class="onepoint-client-stories__slide-right">';
 		$html .= '<div class="onepoint-client-stories__metrics">';
-<<<<<<< HEAD
 		foreach ( array_filter( $metrics, function ( $m ) { return ! empty( $m['value'] ) || ! empty( $m['label'] ); } ) as $m ) {
 			$val = isset( $m['value'] ) ? esc_html( $m['value'] ) : '';
 			$lbl = isset( $m['label'] ) ? esc_html( $m['label'] ) : '';
@@ -936,101 +850,15 @@ function onepoint_render_client_stories_carousel( $attributes ) {
 	$html .= '</div></div>';
 	$html .= '<div class="onepoint-client-stories__controls">';
 	$html .= '<button type="button" class="onepoint-client-stories__arrow onepoint-client-stories__arrow--prev" aria-label="' . esc_attr__( 'Previous slide', 'onepoint-custom-blocks' ) . '"></button>';
-	$html .= '<button type="button" class="onepoint-client-stories__play-pause is-' . ( $autoplay ? 'playing' : 'paused' ) . '" aria-label="' . esc_attr__( 'Play/Pause', 'onepoint-custom-blocks' ) . '">';
-=======
-		foreach ( $metrics as $m ) {
-			$val   = isset( $m['value'] ) ? esc_html( $m['value'] ) : '';
-			$label = isset( $m['label'] ) ? esc_html( $m['label'] ) : '';
-			$html .= '<div class="onepoint-client-stories__metric"><span class="onepoint-client-stories__metric-value">' . $val . '</span><span class="onepoint-client-stories__metric-label">' . $label . '</span></div>';
-		}
-		$html .= '</div></div></div></div>';
-		$html .= '</div></div>';
-	}
-
-	$html .= '</div>';
-	$html .= '<div class="onepoint-client-stories__controls">';
-	$html .= '<button type="button" class="onepoint-client-stories__arrow onepoint-client-stories__arrow--prev" aria-label="' . esc_attr__( 'Previous slide', 'onepoint-custom-blocks' ) . '"></button>';
-	$html .= '<button type="button" class="onepoint-client-stories__play-pause' . ( $autoplay ? ' is-playing' : ' is-paused' ) . '" aria-label="' . esc_attr__( $autoplay ? 'Pause carousel' : 'Play carousel', 'onepoint-custom-blocks' ) . '">';
->>>>>>> 6144bd12d1c6612064f8d78635778521282760d7
+	$html .= '<button type="button" class="onepoint-client-stories__play-pause' . ( $autoplay ? ' is-playing' : ' is-paused' ) . '" aria-label="' . esc_attr( $autoplay ? __( 'Pause carousel', 'onepoint-custom-blocks' ) : __( 'Play carousel', 'onepoint-custom-blocks' ) ) . '">';
 	$html .= '<span class="onepoint-client-stories__play-icon" aria-hidden="true"></span>';
 	$html .= '<span class="onepoint-client-stories__pause-icon" aria-hidden="true"></span>';
 	$html .= '</button>';
 	$html .= '<button type="button" class="onepoint-client-stories__arrow onepoint-client-stories__arrow--next" aria-label="' . esc_attr__( 'Next slide', 'onepoint-custom-blocks' ) . '"></button>';
 	$html .= '</div></div>';
 
-<<<<<<< HEAD
-=======
->>>>>>> f4c6dffb3f041f265141415961791fc8bb2bf198
->>>>>>> 6144bd12d1c6612064f8d78635778521282760d7
+
 	return $html;
-}
-
-/**
-<<<<<<< HEAD
- * Render the Purpose Cards Carousel block (frontend).
-=======
-<<<<<<< HEAD
- * Render the Onepoint Header block (frontend).
- */
-function onepoint_render_header($attributes) {
-	$site_name = isset($attributes['siteName']) && $attributes['siteName'] !== '' ? $attributes['siteName'] : ( function_exists('get_theme_mod') && get_theme_mod('header_site_name', '') !== '' ? get_theme_mod('header_site_name') : get_bloginfo('name') );
-	$menu_loc  = isset($attributes['menuLocation']) ? sanitize_key($attributes['menuLocation']) : 'primary';
-	$icon_url  = isset($attributes['iconUrl']) && $attributes['iconUrl'] !== '' ? $attributes['iconUrl'] : ( function_exists('get_theme_mod') && get_theme_mod('header_icon_url', '') !== '' ? get_theme_mod('header_icon_url') : ( function_exists('onepoint_header_icon_url') ? onepoint_header_icon_url() : '' ) );
-	$admin_logo_url = function_exists('get_theme_mod') ? get_theme_mod('header_logo_url', '') : '';
-	$default_logo_url = function_exists('onepoint_header_logo_url') ? onepoint_header_logo_url() : '';
-	$logo_url = ($admin_logo_url !== '') ? $admin_logo_url : $default_logo_url;
-
-	ob_start();
-	?>
-	<header id="masthead" class="site-header" role="banner">
-		<div class="header-inner">
-			<div class="header-brand">
-				<a href="<?php echo esc_url(home_url('/')); ?>" class="site-logo" rel="home">
-					<?php if ($logo_url !== '') : ?>
-						<img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo esc_attr($site_name); ?>" class="site-logo-img" width="180" height="48" />
-					<?php elseif (has_custom_logo()) : ?>
-						<?php the_custom_logo(); ?>
-					<?php else : ?>
-						<span class="site-name"><?php echo esc_html($site_name); ?></span>
-					<?php endif; ?>
-				</a>
-			</div>
-			<button type="button" class="header-toggle" aria-controls="primary-menu" aria-expanded="false" aria-label="<?php esc_attr_e('Toggle menu', 'onepoint-custom-blocks'); ?>">
-				<span class="hamburger" aria-hidden="true"></span>
-			</button>
-			<nav id="site-navigation" class="header-nav" aria-label="<?php esc_attr_e('Primary', 'onepoint-custom-blocks'); ?>">
-				<?php
-				wp_nav_menu(array(
-					'theme_location' => $menu_loc,
-					'menu_id'        => 'primary-menu',
-					'menu_class'     => 'nav-menu',
-					'container'      => false,
-					'fallback_cb'    => function_exists('onepoint_header_fallback_menu') ? 'onepoint_header_fallback_menu' : null,
-				));
-				?>
-			</nav>
-			<div class="header-icons" aria-hidden="true">
-				<?php
-				if ($icon_url) :
-					for ($i = 0; $i < 3; $i++) :
-				?>
-				<span class="header-icon header-icon-custom">
-					<img src="<?php echo esc_url($icon_url); ?>" alt="" width="24" height="24" loading="lazy" />
-				</span>
-				<?php
-					endfor;
-				else :
-					$flask_svg = '<svg class="icon-flask" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2v5M15 2v5"/><path d="M8 7h8l2.5 14H5.5L8 7z"/><line x1="8" y1="14" x2="16" y2="14"/><circle cx="10" cy="15" r="1"/><circle cx="14" cy="16" r="1"/></svg>';
-				?>
-				<span class="header-icon header-icon-flask"><?php echo $flask_svg; ?></span>
-				<span class="header-icon header-icon-flask"><?php echo $flask_svg; ?></span>
-				<span class="header-icon header-icon-flask"><?php echo $flask_svg; ?></span>
-				<?php endif; ?>
-			</div>
-		</div>
-	</header>
-	<?php
-	return ob_get_clean();
 }
 
 /**
@@ -1065,10 +893,10 @@ function onepoint_render_footer($attributes) {
 						onepoint_footer_column('footer_about', $col3, onepoint_footer_about_fallback());
 						onepoint_footer_column('footer_more_info', $col4, onepoint_footer_more_info_fallback());
 					} else {
-						echo onepoint_plugin_footer_column('footer_what_we_do', $col1, 'Innovate with AI & more');
-						echo onepoint_plugin_footer_column('footer_resources', $col2);
-						echo onepoint_plugin_footer_column('footer_about', $col3);
-						echo onepoint_plugin_footer_column('footer_more_info', $col4);
+						echo wp_kses_post( onepoint_plugin_footer_column( 'footer_what_we_do', $col1, 'Innovate with AI & more' ) );
+						echo wp_kses_post( onepoint_plugin_footer_column( 'footer_resources', $col2 ) );
+						echo wp_kses_post( onepoint_plugin_footer_column( 'footer_about', $col3 ) );
+						echo wp_kses_post( onepoint_plugin_footer_column( 'footer_more_info', $col4 ) );
 					}
 					?>
 				</div>
@@ -1094,9 +922,9 @@ function onepoint_render_footer($attributes) {
 							<?php foreach ($fallback as $item) :
 								$label = isset($item['label']) ? $item['label'] : '';
 								$url   = isset($item['url']) ? $item['url'] : home_url('/');
-								$cls   = ($args['highlight'] && $label === $args['highlight']) ? ' class="is-active"' : '';
+								$cls   = ( ! empty( $args['highlight'] ) && $label === $args['highlight'] ) ? 'is-active' : '';
 							?>
-							<li><a href="<?php echo esc_url($url); ?>"<?php echo $cls; ?>><?php echo esc_html($label); ?></a></li>
+							<li><a href="<?php echo esc_url( $url ); ?>"<?php echo $cls ? ' class="' . esc_attr( $cls ) . '"' : ''; ?>><?php echo esc_html( $label ); ?></a></li>
 							<?php endforeach; ?>
 						</ul>
 					</div>
@@ -1132,7 +960,8 @@ function onepoint_render_footer($attributes) {
 	<?php
 	return ob_get_clean();
 }
-=======
+
+/**
  * Sanitize a single purpose card item from block attributes.
  *
  * @param array $item Raw item from block attributes.
@@ -1154,28 +983,19 @@ function onepoint_sanitize_purpose_card_item( $item ) {
 }
 
 /**
- * Render the Purpose Cards Accordion block (frontend) – horizontal accordion, click to expand.
->>>>>>> 6144bd12d1c6612064f8d78635778521282760d7
+ * Render the Purpose Cards Carousel block (frontend).
  *
  * @param array $attributes Block attributes.
  * @return string HTML output.
  */
 function onepoint_render_purpose_cards_carousel( $attributes ) {
-<<<<<<< HEAD
-	$section_label      = isset( $attributes['sectionLabel'] ) ? wp_kses_post( $attributes['sectionLabel'] ) : 'Purpose beyond profit';
-	$section_heading    = isset( $attributes['sectionHeading'] ) ? wp_kses_post( $attributes['sectionHeading'] ) : 'Always doing right by every stakeholder';
-	$section_description = isset( $attributes['sectionDescription'] ) ? wp_kses_post( $attributes['sectionDescription'] ) : '';
-	$cta_text           = isset( $attributes['ctaText'] ) ? wp_kses_post( $attributes['ctaText'] ) : 'Learn more about Purpose beyond profit';
-	$cta_url            = isset( $attributes['ctaUrl'] ) ? esc_url( $attributes['ctaUrl'] ) : '';
-	$items              = isset( $attributes['items'] ) && is_array( $attributes['items'] ) ? $attributes['items'] : array();
-=======
+
 	$section_label     = isset( $attributes['sectionLabel'] ) ? sanitize_text_field( $attributes['sectionLabel'] ) : '';
 	$section_heading   = isset( $attributes['sectionHeading'] ) ? sanitize_text_field( $attributes['sectionHeading'] ) : '';
-	$section_desc     = isset( $attributes['sectionDescription'] ) ? wp_kses_post( $attributes['sectionDescription'] ) : '';
-	$cta_text         = isset( $attributes['ctaText'] ) ? sanitize_text_field( $attributes['ctaText'] ) : '';
-	$cta_url          = isset( $attributes['ctaUrl'] ) ? esc_url( $attributes['ctaUrl'] ) : '';
-	$raw_items        = isset( $attributes['items'] ) && is_array( $attributes['items'] ) ? $attributes['items'] : array();
->>>>>>> 6144bd12d1c6612064f8d78635778521282760d7
+	$section_desc      = isset( $attributes['sectionDescription'] ) ? wp_kses_post( $attributes['sectionDescription'] ) : '';
+	$cta_text          = isset( $attributes['ctaText'] ) ? sanitize_text_field( $attributes['ctaText'] ) : '';
+	$cta_url           = isset( $attributes['ctaUrl'] ) ? esc_url( $attributes['ctaUrl'] ) : '';
+	$raw_items         = isset( $attributes['items'] ) && is_array( $attributes['items'] ) ? $attributes['items'] : array();
 
 	$default_item = array(
 		'imageUrl'    => '',
@@ -1187,48 +1007,6 @@ function onepoint_render_purpose_cards_carousel( $attributes ) {
 		'accentColor' => '#00D3BA',
 	);
 
-<<<<<<< HEAD
-	if ( empty( $items ) ) {
-		$items = array( $default_item );
-	}
-
-	$closed_bg_url = isset( $attributes['closedCardBackgroundUrl'] ) ? esc_url( $attributes['closedCardBackgroundUrl'] ) : '';
-	$wrapper_style = $closed_bg_url ? ' style="--purpose-cards-closed-bg: url(\'' . $closed_bg_url . '\');"' : '';
-
-	$html  = '<div class="onepoint-purpose-cards"' . $wrapper_style . '>';
-	$html .= '<div class="onepoint-purpose-cards__header">';
-	if ( $section_label ) {
-		$html .= '<div class="onepoint-purpose-cards__label-wrap"><p class="onepoint-purpose-cards__label">' . $section_label . '</p></div>';
-	}
-	if ( $section_heading ) {
-		$html .= '<h2>' . $section_heading . '</h2>';
-	}
-	if ( $section_description ) {
-		$html .= '<p class="onepoint-purpose-cards__description">' . $section_description . '</p>';
-	}
-	$html .= '</div>';
-	$html .= '<div class="onepoint-purpose-cards__track">';
-	$html .= '<div class="onepoint-purpose-cards__track-inner">';
-
-	foreach ( $items as $i => $s ) {
-		$s         = wp_parse_args( $s, $default_item );
-		$image_url = isset( $s['imageUrl'] ) ? esc_url( $s['imageUrl'] ) : '';
-		$image_alt = isset( $s['imageAlt'] ) ? esc_attr( $s['imageAlt'] ) : '';
-		$brand     = isset( $s['brand'] ) ? esc_html( $s['brand'] ) : '';
-		$title     = isset( $s['title'] ) ? esc_html( $s['title'] ) : '';
-		$heading   = isset( $s['heading'] ) ? wp_kses_post( $s['heading'] ) : '';
-		$desc      = isset( $s['description'] ) ? wp_kses_post( $s['description'] ) : '';
-		$accent_raw = isset( $s['accentColor'] ) ? $s['accentColor'] : '#00D3BA';
-		$accent    = esc_attr( sanitize_hex_color( $accent_raw ) ?: '#00D3BA' );
-		$active    = $i === 0 ? ' is-active' : '';
-
-		$html .= '<button type="button" class="onepoint-purpose-cards__card' . $active . '" aria-label="' . esc_attr( $title ?: $brand ?: __( 'Card', 'onepoint-custom-blocks' ) . ' ' . ( $i + 1 ) ) . '" style="--onepoint-card-accent:' . $accent . '">';
-		$html .= '<div class="onepoint-purpose-cards__card-inner">';
-		if ( $image_url || $brand || $title ) {
-			$html .= '<div class="onepoint-purpose-cards__card-header">';
-			if ( $image_url ) {
-				$html .= '<div class="onepoint-purpose-cards__card-icon"><img src="' . $image_url . '" alt="' . $image_alt . '" loading="lazy" /></div>';
-=======
 	if ( empty( $raw_items ) ) {
 		$items = array( $default_item );
 	} else {
@@ -1239,9 +1017,12 @@ function onepoint_render_purpose_cards_carousel( $attributes ) {
 		}
 	}
 
-	$unique_id = 'onepoint-purpose-cards-' . uniqid();
-	$html      = '<div class="onepoint-purpose-cards" id="' . esc_attr( $unique_id ) . '">';
-	$html     .= '<div class="onepoint-purpose-cards__header">';
+	$closed_bg_url = isset( $attributes['closedCardBackgroundUrl'] ) ? esc_url( $attributes['closedCardBackgroundUrl'] ) : '';
+	$wrapper_style = $closed_bg_url ? ' style="--purpose-cards-closed-bg: url(\'' . $closed_bg_url . '\');"' : '';
+	$unique_id     = 'onepoint-purpose-cards-' . uniqid();
+
+	$html  = '<div class="onepoint-purpose-cards" id="' . esc_attr( $unique_id ) . '"' . $wrapper_style . '>';
+	$html .= '<div class="onepoint-purpose-cards__header">';
 	if ( $section_label ) {
 		$html .= '<div class="onepoint-purpose-cards__label-wrap"><p class="onepoint-purpose-cards__label">' . esc_html( $section_label ) . '</p></div>';
 	}
@@ -1261,8 +1042,9 @@ function onepoint_render_purpose_cards_carousel( $attributes ) {
 		$title      = isset( $s['title'] ) ? esc_html( $s['title'] ) : '';
 		$heading    = isset( $s['heading'] ) ? wp_kses_post( $s['heading'] ) : '';
 		$desc       = isset( $s['description'] ) ? wp_kses_post( $s['description'] ) : '';
-		$accent     = isset( $s['accentColor'] ) ? esc_attr( $s['accentColor'] ) : '#00D3BA';
+		$accent     = isset( $s['accentColor'] ) ? esc_attr( sanitize_hex_color( $s['accentColor'] ) ?: '#00D3BA' ) : '#00D3BA';
 		$is_active  = $i === 0;
+		/* translators: %d: card number (1-based). */
 		$card_name  = $title ? $title : ( $brand ? $brand : sprintf( __( 'Card %d', 'onepoint-custom-blocks' ), $i + 1 ) );
 
 		$html .= '<button type="button" class="onepoint-purpose-cards__card' . ( $is_active ? ' is-active' : '' ) . '" aria-label="' . esc_attr( $card_name ) . '" style="--onepoint-card-accent:' . $accent . '">';
@@ -1271,7 +1053,6 @@ function onepoint_render_purpose_cards_carousel( $attributes ) {
 			$html .= '<div class="onepoint-purpose-cards__card-header">';
 			if ( $img_url ) {
 				$html .= '<div class="onepoint-purpose-cards__card-icon"><img src="' . $img_url . '" alt="' . $img_alt . '" loading="lazy" /></div>';
->>>>>>> 6144bd12d1c6612064f8d78635778521282760d7
 			} else {
 				$html .= '<div class="onepoint-purpose-cards__card-icon-placeholder" aria-hidden="true"></div>';
 			}
@@ -1296,371 +1077,10 @@ function onepoint_render_purpose_cards_carousel( $attributes ) {
 	$html .= '</div></div>';
 	if ( $cta_text ) {
 		$html .= '<div class="onepoint-purpose-cards__cta-wrap">';
-<<<<<<< HEAD
-		$html .= '<a href="' . ( $cta_url ?: '#' ) . '" class="onepoint-purpose-cards__cta">' . $cta_text . '</a>';
+		$html .= '<a href="' . ( $cta_url ?: '#' ) . '" class="onepoint-purpose-cards__cta">' . esc_html( $cta_text ) . '</a>';
 		$html .= '</div>';
-=======
-		$href   = $cta_url ? $cta_url : '#';
-		$html  .= '<a href="' . $href . '" class="onepoint-purpose-cards__cta">' . esc_html( $cta_text ) . '</a>';
-		$html  .= '</div>';
->>>>>>> 6144bd12d1c6612064f8d78635778521282760d7
 	}
 	$html .= '</div>';
 
 	return $html;
 }
-
-/**
-<<<<<<< HEAD
- * Render the Footer block (frontend). Uses theme .site-footer styles.
-=======
- * Sanitize a single latest updates card item from block attributes.
- *
- * @param array $item Raw item from block attributes.
- * @return array Sanitized item.
- */
-function onepoint_sanitize_latest_updates_item( $item ) {
-	if ( ! is_array( $item ) ) {
-		return array();
-	}
-	return array(
-		'categoryTag' => isset( $item['categoryTag'] ) ? sanitize_text_field( $item['categoryTag'] ) : '',
-		'imageUrl'    => isset( $item['imageUrl'] ) ? esc_url_raw( $item['imageUrl'] ) : '',
-		'imageAlt'    => isset( $item['imageAlt'] ) ? sanitize_text_field( $item['imageAlt'] ) : '',
-		'title'       => isset( $item['title'] ) ? wp_kses_post( $item['title'] ) : '',
-		'buttonText'  => isset( $item['buttonText'] ) ? sanitize_text_field( $item['buttonText'] ) : '',
-		'buttonUrl'   => isset( $item['buttonUrl'] ) ? esc_url_raw( $item['buttonUrl'] ) : '',
-	);
-}
-
-/**
- * Render the Latest Updates Carousel block (frontend) – 3 visible cards, arrows, auto-slide.
->>>>>>> 6144bd12d1c6612064f8d78635778521282760d7
- *
- * @param array $attributes Block attributes.
- * @return string HTML output.
- */
-<<<<<<< HEAD
-function onepoint_render_footer( $attributes ) {
-	$col1_title   = isset( $attributes['col1Title'] ) ? wp_kses_post( $attributes['col1Title'] ) : 'What we do';
-	$col2_title   = isset( $attributes['col2Title'] ) ? wp_kses_post( $attributes['col2Title'] ) : 'Resources';
-	$col3_title   = isset( $attributes['col3Title'] ) ? wp_kses_post( $attributes['col3Title'] ) : 'About us';
-	$col4_title   = isset( $attributes['col4Title'] ) ? wp_kses_post( $attributes['col4Title'] ) : 'More info';
-	$btn_collapse = isset( $attributes['btnCollapse'] ) ? wp_kses_post( $attributes['btnCollapse'] ) : 'Hide full footer';
-	$btn_expand   = isset( $attributes['btnExpand'] ) ? wp_kses_post( $attributes['btnExpand'] ) : 'Show full footer';
-	$policies_label = isset( $attributes['policiesLabel'] ) ? wp_kses_post( $attributes['policiesLabel'] ) : 'Policies';
-	$terms_label  = isset( $attributes['termsLabel'] ) ? wp_kses_post( $attributes['termsLabel'] ) : 'Terms and conditions';
-	$terms_url    = isset( $attributes['termsUrl'] ) ? esc_url( $attributes['termsUrl'] ) : home_url( '/terms' );
-	$cookies_label = isset( $attributes['cookiesLabel'] ) ? wp_kses_post( $attributes['cookiesLabel'] ) : 'Cookies';
-	$cookies_url  = isset( $attributes['cookiesUrl'] ) ? esc_url( $attributes['cookiesUrl'] ) : home_url( '/cookies' );
-	$copyright    = isset( $attributes['copyright'] ) ? wp_kses_post( $attributes['copyright'] ) : 'Onepoint Consulting Ltd';
-	$footer_logo_url = isset( $attributes['footerLogoUrl'] ) ? esc_url( $attributes['footerLogoUrl'] ) : '';
-	$footer_logo_alt = isset( $attributes['footerLogoAlt'] ) ? esc_attr( $attributes['footerLogoAlt'] ) : '';
-	$privacy_label = isset( $attributes['privacyLabel'] ) ? wp_kses_post( $attributes['privacyLabel'] ) : '';
-	$privacy_url   = isset( $attributes['privacyUrl'] ) ? esc_url( $attributes['privacyUrl'] ) : '';
-
-	$col_titles = array( $col1_title, $col2_title, $col3_title, $col4_title );
-	$menu_locations = array( 'footer-col-1', 'footer-col-2', 'footer-col-3', 'footer-col-4' );
-	$year = gmdate( 'Y' );
-
-	$html  = '<footer id="colophon" class="site-footer" role="contentinfo">';
-	$html .= '<div class="footer-inner">';
-	$html .= '<div class="footer-top" id="footer-top">';
-	$html .= '<div class="footer-cols">';
-
-	$fallback_links = array(
-		array( __( 'Services', 'onepoint-custom-blocks' ), home_url( '/services' ) ),
-		array( __( 'Industries', 'onepoint-custom-blocks' ), home_url( '/industries' ) ),
-		array( __( 'Case studies', 'onepoint-custom-blocks' ), home_url( '/case-studies' ) ),
-		array( __( 'Blog', 'onepoint-custom-blocks' ), home_url( '/blog' ) ),
-		array( __( 'Careers', 'onepoint-custom-blocks' ), home_url( '/careers' ) ),
-		array( __( 'Contact', 'onepoint-custom-blocks' ), home_url( '/contact' ) ),
-	);
-	foreach ( $col_titles as $i => $title ) {
-		$loc = $menu_locations[ $i ];
-		$html .= '<div class="footer-col">';
-		$html .= '<h3 class="footer-col__title">' . $title . '</h3>';
-		$menu_html = wp_nav_menu( array(
-			'theme_location' => $loc,
-			'menu_class'     => 'footer-col__list',
-			'container'      => false,
-			'echo'           => false,
-			'fallback_cb'    => false,
-		) );
-		if ( $menu_html ) {
-			$html .= $menu_html;
-		} else {
-			$html .= '<ul class="footer-col__list">';
-			$take = 2 + ( $i % 2 );
-			foreach ( array_slice( $fallback_links, $i * 2, $take ) as $link ) {
-				$html .= '<li class="menu-item"><a href="' . esc_url( $link[1] ) . '">' . esc_html( $link[0] ) . '</a></li>';
-			}
-			$html .= '</ul>';
-		}
-		$html .= '</div>';
-	}
-
-	$html .= '</div></div>';
-	$html .= '<div class="footer-bottom">';
-	$html .= '<button type="button" class="footer-toggle-full" id="footer-toggle-full" aria-expanded="true" aria-controls="footer-top" data-label-collapse="' . esc_attr( $btn_collapse ) . '" data-label-expand="' . esc_attr( $btn_expand ) . '">';
-	$html .= '<span class="footer-toggle-full-text">' . $btn_collapse . '</span>';
-	$html .= '<span class="footer-toggle-full-icon" aria-hidden="true"></span>';
-	$html .= '</button>';
-	$html .= '<div class="footer-brand-row">';
-	$html .= '<div class="footer-brand">';
-	if ( $footer_logo_url ) {
-		$html .= '<a href="' . esc_url( home_url( '/' ) ) . '" class="footer-logo" rel="home"><img src="' . $footer_logo_url . '" alt="' . $footer_logo_alt . '" /></a>';
-	} elseif ( has_custom_logo() ) {
-		$html .= '<a href="' . esc_url( home_url( '/' ) ) . '" class="footer-logo" rel="home">' . get_custom_logo() . '</a>';
-	} else {
-		$html .= '<a href="' . esc_url( home_url( '/' ) ) . '" class="footer-logo footer-logo-text" rel="home">' . esc_html( get_bloginfo( 'name' ) ?: 'ONEPOINT' ) . '</a>';
-	}
-	$html .= '</div></div>';
-	$html .= '<div class="footer-legal">';
-	$html .= '<div class="footer-policies">';
-	$html .= '<span class="footer-policies-label">' . $policies_label . ':</span>';
-	$html .= '<a href="' . $terms_url . '">' . $terms_label . '</a>';
-	if ( $privacy_label && $privacy_url ) {
-		$html .= '<a href="' . $privacy_url . '">' . $privacy_label . '</a>';
-	}
-	$html .= '<a href="' . $cookies_url . '">' . $cookies_label . '</a>';
-	$html .= '</div>';
-	$html .= '<p class="footer-copyright">© ' . esc_html( $year ) . ' ' . $copyright . '</p>';
-	$html .= '</div></div>';
-	$html .= '</div></footer>';
-=======
-function onepoint_render_latest_updates_carousel( $attributes ) {
-	$section_label     = isset( $attributes['sectionLabel'] ) ? sanitize_text_field( $attributes['sectionLabel'] ) : '';
-	$section_heading   = isset( $attributes['sectionHeading'] ) ? sanitize_text_field( $attributes['sectionHeading'] ) : '';
-	$section_desc      = isset( $attributes['sectionDescription'] ) ? wp_kses_post( $attributes['sectionDescription'] ) : '';
-	$raw_items         = isset( $attributes['items'] ) && is_array( $attributes['items'] ) ? $attributes['items'] : array();
-	$autoplay          = isset( $attributes['autoplay'] ) ? (bool) $attributes['autoplay'] : true;
-	$interval          = isset( $attributes['interval'] ) ? max( 3, min( 15, (int) $attributes['interval'] ) ) : 6;
-
-	$default_item = array(
-		'categoryTag' => 'Press - release',
-		'imageUrl'    => '',
-		'imageAlt'    => '',
-		'title'       => '',
-		'buttonText'  => '',
-		'buttonUrl'   => '',
-	);
-
-	if ( empty( $raw_items ) ) {
-		$items = array( $default_item );
-	} else {
-		$items = array_map( 'onepoint_sanitize_latest_updates_item', $raw_items );
-		$items = array_filter( $items );
-		if ( empty( $items ) ) {
-			$items = array( $default_item );
-		}
-	}
-
-	$count    = count( $items );
-	$unique_id = 'onepoint-latest-updates-' . uniqid();
-
-	/* For infinite loop: triple the cards when count > 1; view.js starts at middle set and jumps seamlessly. */
-	$total_cards = ( $count > 1 ) ? $count * 3 : $count;
-
-	$html = '<div class="onepoint-latest-updates" id="' . esc_attr( $unique_id ) . '" data-autoplay="' . ( $autoplay ? '1' : '0' ) . '" data-interval="' . esc_attr( $interval ) . '" data-original-count="' . esc_attr( $count ) . '" style="--lu-items:' . esc_attr( $total_cards ) . '">';
-	$html .= '<div class="onepoint-latest-updates__header">';
-	$html .= '<div class="onepoint-latest-updates__header-text">';
-	if ( $section_label ) {
-		$html .= '<div class="onepoint-latest-updates__label-wrap"><p class="onepoint-latest-updates__label">' . esc_html( $section_label ) . '</p></div>';
-	}
-	if ( $section_heading ) {
-		$html .= '<h2>' . esc_html( $section_heading ) . '</h2>';
-	}
-	if ( $section_desc ) {
-		$html .= '<p class="onepoint-latest-updates__description">' . $section_desc . '</p>';
-	}
-	$html .= '</div>';
-	if ( $count > 1 ) {
-		$html .= '<div class="onepoint-latest-updates__arrows">';
-		$html .= '<button type="button" class="onepoint-latest-updates__arrow onepoint-latest-updates__arrow--prev" aria-label="' . esc_attr__( 'Previous', 'onepoint-custom-blocks' ) . '"></button>';
-		$html .= '<button type="button" class="onepoint-latest-updates__arrow onepoint-latest-updates__arrow--next" aria-label="' . esc_attr__( 'Next', 'onepoint-custom-blocks' ) . '"></button>';
-		$html .= '</div>';
-	}
-	$html .= '</div>';
-	$html .= '<div class="onepoint-latest-updates__track">';
-	$html .= '<div class="onepoint-latest-updates__track-inner">';
-
-	$copies = ( $count > 1 ) ? 3 : 1;
-	for ( $copy = 0; $copy < $copies; $copy++ ) {
-		foreach ( $items as $s ) {
-			$cat_tag    = isset( $s['categoryTag'] ) ? esc_html( $s['categoryTag'] ) : '';
-			$img_url    = isset( $s['imageUrl'] ) ? esc_url( $s['imageUrl'] ) : '';
-			$img_alt    = isset( $s['imageAlt'] ) ? esc_attr( $s['imageAlt'] ) : '';
-			$title      = isset( $s['title'] ) ? wp_kses_post( $s['title'] ) : '';
-			$btn_text   = isset( $s['buttonText'] ) ? esc_html( $s['buttonText'] ) : '';
-			$btn_url    = isset( $s['buttonUrl'] ) ? esc_url( $s['buttonUrl'] ) : '';
-
-			$html .= '<div class="onepoint-latest-updates__card">';
-			$html .= '<div class="onepoint-latest-updates__card-image-wrap">';
-			if ( $img_url ) {
-				$html .= '<img src="' . $img_url . '" alt="' . $img_alt . '" class="onepoint-latest-updates__card-image" loading="lazy" />';
-			} else {
-				$html .= '<div class="onepoint-latest-updates__card-image-placeholder" aria-hidden="true"></div>';
-			}
-			if ( $cat_tag ) {
-				$html .= '<span class="onepoint-latest-updates__card-tag">' . $cat_tag . '</span>';
-			}
-			$html .= '</div>';
-			$html .= '<div class="onepoint-latest-updates__card-content">';
-			if ( $title ) {
-				$html .= '<h3 class="onepoint-latest-updates__card-title">' . $title . '</h3>';
-			}
-			if ( $btn_text ) {
-				$href = $btn_url ? $btn_url : '#';
-				$html .= '<a href="' . $href . '" class="onepoint-latest-updates__card-cta">' . $btn_text . '</a>';
-			}
-			$html .= '</div></div>';
-		}
-	}
-
-	$html .= '</div></div></div>';
-	return $html;
-}
-
-/**
- * Render the Contact Form block (frontend).
- *
- * @param array $attributes Block attributes.
- * @return string HTML output.
- */
-function onepoint_render_contact_form( $attributes ) {
-	$section_label   = isset( $attributes['sectionLabel'] ) ? sanitize_text_field( $attributes['sectionLabel'] ) : '';
-	$heading         = isset( $attributes['heading'] ) ? sanitize_text_field( $attributes['heading'] ) : '';
-	$description     = isset( $attributes['description'] ) ? wp_kses_post( $attributes['description'] ) : '';
-	$button_text     = isset( $attributes['buttonText'] ) ? sanitize_text_field( $attributes['buttonText'] ) : __( 'Get in touch', 'onepoint-custom-blocks' );
-	$recipient       = isset( $attributes['recipientEmail'] ) ? sanitize_email( $attributes['recipientEmail'] ) : '';
-	$success_message = isset( $attributes['successMessage'] ) ? sanitize_text_field( $attributes['successMessage'] ) : __( "Thank you! We'll get back to you soon.", 'onepoint-custom-blocks' );
-
-	if ( empty( $recipient ) ) {
-		$recipient = get_option( 'admin_email' );
-	}
-
-	$form_action = admin_url( 'admin-post.php' );
-	$nonce       = wp_create_nonce( 'onepoint_contact_form' );
-	$redirect    = esc_url( get_permalink() ?: home_url( '/' ) );
-
-	$success = isset( $_GET['onepoint_contact_success'] ) && $_GET['onepoint_contact_success'] === '1';
-	$error   = isset( $_GET['onepoint_contact_error'] ) ? sanitize_text_field( wp_unslash( $_GET['onepoint_contact_error'] ) ) : '';
-
-	$html = '<div class="onepoint-contact-form">';
-	$html .= '<div class="onepoint-contact-form__header">';
-	if ( $section_label ) {
-		$html .= '<div class="onepoint-contact-form__label-wrap"><p class="onepoint-contact-form__label">' . esc_html( $section_label ) . '</p></div>';
-	}
-	if ( $heading ) {
-		$html .= '<h2>' . esc_html( $heading ) . '</h2>';
-	}
-	if ( $description ) {
-		$html .= '<p class="onepoint-contact-form__description">' . $description . '</p>';
-	}
-	$html .= '</div>';
-
-	$html .= '<div class="onepoint-contact-form__card">';
-	if ( $success ) {
-		$html .= '<div class="onepoint-contact-form__message onepoint-contact-form__message--success">' . esc_html( $success_message ) . '</div>';
-	}
-	if ( $error ) {
-		$html .= '<div class="onepoint-contact-form__message onepoint-contact-form__message--error">' . esc_html( $error ) . '</div>';
-	}
-
-	$html .= '<form class="onepoint-contact-form__fields" method="post" action="' . esc_url( $form_action ) . '">';
-	$html .= '<input type="hidden" name="action" value="onepoint_contact_form" />';
-	$html .= '<input type="hidden" name="onepoint_contact_nonce" value="' . esc_attr( $nonce ) . '" />';
-	$html .= '<input type="hidden" name="onepoint_recipient" value="' . esc_attr( $recipient ) . '" />';
-	$html .= '<input type="hidden" name="_wp_http_referer" value="' . esc_attr( $redirect ) . '" />';
-
-	$html .= '<div class="onepoint-contact-form__row">';
-	$html .= '<div class="onepoint-contact-form__field">';
-	$html .= '<label for="onepoint_contact_name">' . esc_html__( 'Name', 'onepoint-custom-blocks' ) . '</label>';
-	$html .= '<input type="text" id="onepoint_contact_name" name="onepoint_name" required />';
-	$html .= '</div>';
-	$html .= '<div class="onepoint-contact-form__field">';
-	$html .= '<label for="onepoint_contact_email">' . esc_html__( 'Business email', 'onepoint-custom-blocks' ) . '</label>';
-	$html .= '<input type="email" id="onepoint_contact_email" name="onepoint_email" required />';
-	$html .= '</div>';
-	$html .= '</div>';
-
-	$html .= '<div class="onepoint-contact-form__row">';
-	$html .= '<div class="onepoint-contact-form__field">';
-	$html .= '<label for="onepoint_contact_company">' . esc_html__( 'Company', 'onepoint-custom-blocks' ) . '</label>';
-	$html .= '<input type="text" id="onepoint_contact_company" name="onepoint_company" />';
-	$html .= '</div>';
-	$html .= '<div class="onepoint-contact-form__field">';
-	$html .= '<label for="onepoint_contact_linkedin">' . esc_html__( 'LinkedIn link', 'onepoint-custom-blocks' ) . '</label>';
-	$html .= '<input type="url" id="onepoint_contact_linkedin" name="onepoint_linkedin" placeholder="https://" />';
-	$html .= '</div>';
-	$html .= '</div>';
-
-	$html .= '<div class="onepoint-contact-form__field onepoint-contact-form__field--message">';
-	$html .= '<label for="onepoint_contact_message">' . esc_html__( 'How can we help you?', 'onepoint-custom-blocks' ) . '</label>';
-	$html .= '<textarea id="onepoint_contact_message" name="onepoint_message" rows="5"></textarea>';
-	$html .= '</div>';
-
-	$html .= '<div class="onepoint-contact-form__button-wrap">';
-	$html .= '<input type="submit" class="onepoint-contact-form__button" value="' . esc_attr( $button_text ) . '" />';
-	$html .= '</div>';
-	$html .= '</form>';
-	$html .= '</div></div>';
->>>>>>> 6144bd12d1c6612064f8d78635778521282760d7
-
-	return $html;
-}
-
-<<<<<<< HEAD
-=======
-/**
- * Handle contact form submission (admin-post).
- */
-function onepoint_handle_contact_form_submit() {
-	if ( ! isset( $_POST['action'] ) || $_POST['action'] !== 'onepoint_contact_form' ) {
-		return;
-	}
-	if ( ! isset( $_POST['onepoint_contact_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['onepoint_contact_nonce'] ) ), 'onepoint_contact_form' ) ) {
-		wp_safe_redirect( add_query_arg( 'onepoint_contact_error', rawurlencode( __( 'Security check failed. Please try again.', 'onepoint-custom-blocks' ) ), wp_get_referer() ?: home_url( '/' ) ) );
-		exit;
-	}
-
-	$name     = isset( $_POST['onepoint_name'] ) ? sanitize_text_field( wp_unslash( $_POST['onepoint_name'] ) ) : '';
-	$email    = isset( $_POST['onepoint_email'] ) ? sanitize_email( wp_unslash( $_POST['onepoint_email'] ) ) : '';
-	$company  = isset( $_POST['onepoint_company'] ) ? sanitize_text_field( wp_unslash( $_POST['onepoint_company'] ) ) : '';
-	$linkedin = isset( $_POST['onepoint_linkedin'] ) ? esc_url_raw( wp_unslash( $_POST['onepoint_linkedin'] ) ) : '';
-	$message  = isset( $_POST['onepoint_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['onepoint_message'] ) ) : '';
-	$recipient = isset( $_POST['onepoint_recipient'] ) ? sanitize_email( wp_unslash( $_POST['onepoint_recipient'] ) ) : get_option( 'admin_email' );
-
-	if ( empty( $name ) || empty( $email ) ) {
-		wp_safe_redirect( add_query_arg( 'onepoint_contact_error', rawurlencode( __( 'Name and email are required.', 'onepoint-custom-blocks' ) ), wp_get_referer() ?: home_url( '/' ) ) );
-		exit;
-	}
-
-	if ( empty( $recipient ) ) {
-		$recipient = get_option( 'admin_email' );
-	}
-
-	$subject = sprintf( /* translators: %s: site name */ __( '[%s] Contact form submission', 'onepoint-custom-blocks' ), get_bloginfo( 'name' ) );
-	$body    = sprintf( __( 'Name: %s', 'onepoint-custom-blocks' ), $name ) . "\n";
-	$body   .= sprintf( __( 'Email: %s', 'onepoint-custom-blocks' ), $email ) . "\n";
-	$body   .= sprintf( __( 'Company: %s', 'onepoint-custom-blocks' ), $company ) . "\n";
-	$body   .= sprintf( __( 'LinkedIn: %s', 'onepoint-custom-blocks' ), $linkedin ) . "\n\n";
-	$body   .= sprintf( __( 'Message:', 'onepoint-custom-blocks' ) ) . "\n" . $message;
-
-	$headers = array( 'Content-Type: text/plain; charset=UTF-8', 'Reply-To: ' . $name . ' <' . $email . '>' );
-	$sent    = wp_mail( $recipient, $subject, $body, $headers );
-
-	$redirect = isset( $_POST['_wp_http_referer'] ) ? esc_url_raw( wp_unslash( $_POST['_wp_http_referer'] ) ) : ( wp_get_referer() ?: home_url( '/' ) );
-	if ( $sent ) {
-		wp_safe_redirect( add_query_arg( 'onepoint_contact_success', '1', $redirect ) );
-	} else {
-		wp_safe_redirect( add_query_arg( 'onepoint_contact_error', rawurlencode( __( 'Failed to send. Please try again later.', 'onepoint-custom-blocks' ) ), $redirect ) );
-	}
-	exit;
-}
-add_action( 'admin_post_onepoint_contact_form', 'onepoint_handle_contact_form_submit' );
-add_action( 'admin_post_nopriv_onepoint_contact_form', 'onepoint_handle_contact_form_submit' );
-
->>>>>>> f4c6dffb3f041f265141415961791fc8bb2bf198
->>>>>>> 6144bd12d1c6612064f8d78635778521282760d7

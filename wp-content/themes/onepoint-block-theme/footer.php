@@ -16,20 +16,6 @@ echo do_blocks( '<!-- wp:onepoint/footer /-->' );
 			var open = headerBtn.getAttribute('aria-expanded') === 'true';
 			headerBtn.setAttribute('aria-expanded', !open);
 			headerNav.classList.toggle('is-open', !open);
-<<<<<<< HEAD
-		});
-	}
-	var footerBtn = document.querySelector('.footer-toggle-full');
-	var footerTop = document.querySelector('#footer-top');
-	var footerText = document.querySelector('.footer-toggle-full-text');
-	if (footerBtn && footerTop && footerText) {
-		footerBtn.addEventListener('click', function() {
-			var expanded = footerBtn.getAttribute('aria-expanded') === 'true';
-			footerBtn.setAttribute('aria-expanded', !expanded);
-			footerTop.hidden = expanded;
-			footerText.textContent = expanded ? (footerBtn.dataset.labelExpand || 'Show full footer') : (footerBtn.dataset.labelCollapse || 'Hide full footer');
-=======
->>>>>>> 6144bd12d1c6612064f8d78635778521282760d7
 		});
 	}
 	var footerToggle = document.getElementById('footer-toggle-full');
